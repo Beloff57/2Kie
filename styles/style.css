@@ -233,7 +233,7 @@ body {
 }
 
 .right-static .logo-block img {
-  width: 18.813vw;
+  width: 21.7vw;
   height: auto;
 }
 
@@ -252,7 +252,7 @@ body {
   border-radius: 2vw; /* скругление углов */
   text-decoration: none; /* убираем подчёркивание ссылки */
   color: #2D2D2D; /* цвет текста */
-  width: 18.625vw; /* занимает всю доступную ширину */
+  width: 21.7vw; /* занимает всю доступную ширину */
   box-sizing: border-box; /* включаем отступы в ширину элемента */
   cursor: pointer; /* курсор "рука" при наведении */
   margin-left: 3.938vw;
@@ -294,7 +294,7 @@ body {
 }
 
 .wa-button {
-  width: 2.125vw;
+  width: 2.5vw;
 }
 
 .social-btn-1-2 {
@@ -304,7 +304,7 @@ body {
 }
 
 .tg-button {
-  width: 2.125vw;
+  width: 2.5vw;
 }
 
 .social-btn-1-3 {
@@ -314,10 +314,10 @@ body {
   text-decoration: none;
   font-family: var(--montserrat);
   color: #FFFFFF;
-  padding: 0.65vw 3.27vw;
+  padding: 0.65vw 3.9vw;
   background: #2D2D2D;
   border-radius: 1vw;
-  font-size: 0.875vw;
+  font-size: 1vw;
   cursor: pointer;
   margin: 0;
   transition: 
@@ -617,7 +617,7 @@ body {
 
 .btn-cont-1 {
   height: 5.375vw;
-  margin-bottom: 0.313vw;
+  margin-bottom: 0.375vw;
 }
 
 .komp-button {
@@ -744,6 +744,7 @@ body {
 }
 
 .komanda-content {
+  width: 68vw;
   position: relative; 
   height: 28.3vw;
 }
@@ -809,13 +810,17 @@ body {
   padding-top: 1.688vw;
 }
 
-.kb-1 h2,
-.kb-3 h2 {
+.kb-1 h2 {
   letter-spacing: -0.12em;
 }
 
 .kb-2 h2 {
   letter-spacing: -0.09em;
+}
+
+.kb-3 h2 {
+  padding-right: 1vw;
+  letter-spacing: -0.12em;
 }
 
 .kb-1 p,
@@ -857,7 +862,7 @@ body {
   font-weight: 700;
   font-family: var(--montserrat);
   margin-bottom: 1.25vw;
-  font-size: 2.5vw;
+  font-size: 3vw;
   color: #333333;
   margin-left: 3.938vw;
   padding-bottom: 0px;
@@ -869,12 +874,13 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin-left: 3.938vw;
+  transform: translateY(-1.5vw);
 }
 
 .category {
-  width: 19vw;
+  width: 21.7vw;
   font-family: var(--montserrat);
-  font-size: 0.875vw;
+  font-size: 1.125vw;
   line-height: 113.9%;
   letter-spacing: -4%;
   font-weight: 500;
@@ -887,7 +893,7 @@ body {
 
 .category span {
   font-family: var(--montserrat);
-  font-size: 0.875vw;
+  font-size: 1.125vw;
   line-height: 113.9%;
   letter-spacing: -4%;
   font-weight: 500;
@@ -917,13 +923,14 @@ body {
   padding: 0;
   box-sizing: border-box;
   z-index: 20;
-  margin-bottom: 3.438vw;
 }
 
 .left-scrollable-2 {
   width: 70vw; 
   overflow-y: auto;
-  padding: 1.063vw 1.25vw;
+  padding-top: 1.063vw;
+  padding-left: 1.25vw;
+  padding-bottom: 2.688vw;
   padding-right: 0px;
   box-sizing: border-box;
   -ms-overflow-style: none;
@@ -937,8 +944,8 @@ body {
 }
 
 .project-content-1 {
-    display: block;
-  width: 100%;
+  width: 68vw;
+  display: block;
   height: auto;
   overflow-y: auto; /* Если контента больше, чем помещается */
   box-sizing: border-box;
@@ -959,7 +966,7 @@ body {
 
 .projects-container h2 {
   margin: 0 0 0 0; 
-  padding: 1.188vw 1.875vw 0.938vw; 
+  padding: 1.188vw 1.875vw 1vw; 
   margin-bottom: 0; 
   font-size: 1.25vw; 
   font-family: var(--montserrat); 
@@ -1100,21 +1107,24 @@ body {
   width: 100%; /* Заполняем на 100% */
 }
 
+.project-content-2 {
+  width: 68vw;
+}
+
 .photo-block {
-  width: 68vw; /* Ширина блока */
+  width: 100%;
   margin: 0 auto; /* Центрируем блок */
 }
 
-.row-1, .row-3 {
+.row-1, .row-3, .row-5 {
   width: 68vw;
   display: flex; /* Располагаем фото в ряд */
   justify-content: space-between; /* Распределяем фото с отступами */
-  margin-bottom: 0.375vw; /* Отступ между рядами (при необходимости) */
     margin-right: 0vw;
-  gap: 0.5vw;
+  gap: 0.375vw;
 }
 
-.row-2 {
+.row-2, .row-4 {
   text-align: center; /* Центрируем растянутое фото */
   margin-bottom: 0.375vw;
 }
@@ -1270,7 +1280,7 @@ body {
   right: 0;
   top: 0vh; /* Начинается после первого блока */
   width: 30vw;
-  height: 100vh;
+  height: 41vw;
   background-color: #D4D5DE;
   padding: 0px;
   margin-left: 0;
@@ -1305,7 +1315,7 @@ body {
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:0.44vw;            
+  padding:0.6vw;            
   box-sizing:border-box;    
   border:1px solid #2D2D2D;
   border-radius:2vw;
@@ -1313,8 +1323,8 @@ body {
 }
 
 .icon-wrap-1 .arrow-icon-1 {
-  width: 1vw;
-  height: 1vw;
+  width: 1.3vw;
+  height: 1.3vw;
 }
 
 /* Эффекты при наведении */
@@ -1323,8 +1333,24 @@ body {
 }
 
 .ar-cont:hover img {
-  width: 1vw; /* Увеличиваем ширину стрелки */
+  width: 1.3vw; /* Увеличиваем ширину стрелки */
   transform: scale(1.05); /* Дополнительно масштабируем изображение */
+}
+
+.icon-wrap-1-1 {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0.6vw;            
+  box-sizing:border-box;    
+  border:1px solid #2D2D2D;
+  border-radius:2vw;
+  margin-left: 3vw;
+}
+
+.icon-wrap-1-1 .arrow-icon-1-1 {
+  width: 1.3vw;
+  height: 1.3vw;
 }
 
 .projects-filter h3 {
@@ -1333,7 +1359,7 @@ body {
   font-weight: 700;
   font-family: var(--montserrat);
   margin-bottom: 1.25vw;
-  font-size: 2.5vw;
+  font-size: 3vw;
   color: #333333;
   padding-left: 0vw;
   padding-bottom: 0vw;
@@ -1348,7 +1374,7 @@ body {
   gap: 0.313vw;
   padding-left: 0vw;
   padding-bottom: 21.625vw;
-  width: 20vw;
+  width: 22vw;
   margin-left: 3.938vw;
 }
 
@@ -1364,7 +1390,7 @@ body {
   padding: 0.38vw 0.96vw;
   background-color: #ffffff;
   border-radius: 0.5vw;
-  font-size: 0.875vw;
+  font-size: 1.063vw;
   transition: background-color 0.3s, ease, color 0.3s ease;
 }
 
@@ -1385,7 +1411,7 @@ body {
   padding: 0.38vw 0.83vw;
   background-color: #ffffff;
   border-radius: 0.5vw;
-  font-size: 0.875vw;
+  font-size: 1.063vw;
   transition: background-color 0.3s, ease, color 0.3s ease;
 }
 
@@ -1406,7 +1432,7 @@ body {
   padding: 0.38vw 0.7vw;
   background-color: #ffffff;
   border-radius: 0.5vw;
-  font-size: 0.875vw;
+  font-size: 1.063vw;
   transition: background-color 0.3s, ease, color 0.3s ease;
 }
 
@@ -1427,7 +1453,7 @@ body {
   padding: 0.38vw 0.7vw;
   background-color: #ffffff;
   border-radius: 0.5vw;
-  font-size: 0.875vw;
+  font-size: 1.063vw;
   transition: background-color 0.3s, ease, color 0.3s ease;
 }
 
@@ -1888,7 +1914,7 @@ body {
 .nav-link {
   font-size: 2.955vw;
     font-family: var(--montserrat);
-    line-height: 99.9%;
+    line-height: 105.9%;
     letter-spacing: -5%;
     font-style: italic;
   font-weight: 600;
