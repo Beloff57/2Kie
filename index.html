@@ -247,7 +247,7 @@
     </div>
     <div class="komanda-bloki">
       <div class="kb-1">
-        <h2>24</h2>
+        <h2>18</h2>
         <p>Мидл и сеньерных специалистов в команде</p>
       </div>
       <div class="kb-2">
@@ -273,10 +273,12 @@
       <div class="k-list">
         <div class="category">Full stuck developer<span>x3</span></div>
         <div class="category">Project maneger<span>x3</span></div>
-        <div class="category">Meadle / senior designer<span>x5</span></div>
-        <div class="category">образование<span>x3</span></div>
-        <div class="category">финтех<span>x2</span></div>
-        <div class="category">производство<span>x5</span></div>
+        <div class="category">Meadle / senior designer<span>x4</span></div>
+        <div class="category">UX/UI designer<span>x1</span></div>
+        <div class="category">1c developer<span>x1</span></div>
+        <div class="category">Art director<span>x2</span></div>
+        <div class="category">Research analyst<span>x1</span></div>
+        <div class="category">Brand designer<span>x1</span></div>
       </div>
     </div>
   </div>
@@ -420,6 +422,31 @@
         </div>
       </div>
     </div>
+        <div class="row-4">
+      <div class="image-container">
+        <img src="images/foto3.png" alt="Фото 3 (растянутое)" class="photo-1032" data-tooltip-2="Описание шестой фотографии">
+        <div class="button-group-2">
+          <a href="#" class="btn-wht">Branding</a>
+          <a href="#" class="btn-wht">Logo</a>
+        </div>
+      </div>
+    </div>
+    <div class="row-5">
+      <div class="image-container">
+        <img src="images/foto4.png" alt="Фото 4" class="photo-506" data-tooltip="Описание седьмой фотографии">
+        <div class="button-group">
+          <a href="#" class="btn-drk">Design</a>
+          <a href="#" class="btn-drk">Logo</a>          
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/foto5.png" alt="Фото 5" class="photo-506" data-tooltip="Описание восьмой фотографии">
+        <div class="button-group">
+          <a href="#" class="btn-drk">Branding</a>
+          <a href="#" class="btn-drk">Logo</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -428,8 +455,8 @@
       <div class="zag-proj">
       <h3>Проекты</h3>
         <a href="" class="ar-cont">
-          <div class="icon-wrap-1">
-          <img src="images/Arrow 112.svg" class="arrow-icon-1" alt="">
+          <div class="icon-wrap-1-1">
+          <img src="images/Arrow 112.svg" class="arrow-icon-1-1" alt="">
           </div>
         </a>
       </div>
@@ -502,30 +529,45 @@ document.addEventListener('DOMContentLoaded', function() {
   const cards = document.querySelectorAll('.card');
   const cardsWrapper = document.querySelector('.services-cards-wrapper');
 
-  let cardsAnimated = false; // Флаг: были ли карточки уже анимированы
+  let cardsAnimated = false;           // Уже анимированы?
+  let userHasScrolled = false;        // Был ли скролл хотя бы раз?
+  let isInitialized = false;            // Инициализация пройдена
 
-  // Функция проверки видимости элемента
+  // Порог видимости: карточка «в зоне», если ≥30% её высоты видно
+  const VISIBILITY_THRESHOLD = 0.6;
+
+  // Проверка видимости элемента (с точным расчётом видимой доли)
   function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
-    return rect.top < window.innerHeight * 0.75;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    const elementHeight = rect.bottom - rect.top;
+    if (elementHeight <= 0) return false; // Невидимый/свёрнутый элемент
+
+
+    const visibleTop = Math.max(rect.top, 0);
+    const visibleBottom = Math.min(rect.bottom, windowHeight);
+    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+
+    const visibleRatio = visibleHeight / elementHeight;
+    return visibleRatio >= VISIBILITY_THRESHOLD;
   }
 
-  // Функция анимации появления карточек
+  // Анимация появления карточек (постепенная)
   function animateCards() {
-    if (cardsAnimated) return; // Если уже анимировали — не повторяем
+    if (cardsAnimated) return;
 
     cardsAnimated = true;
     cards.forEach((card, index) => {
-      const delay = index * 250;
       setTimeout(() => {
         card.classList.add('visible');
-      }, delay);
+      }, index * 100);
     });
   }
 
-  // Функция скрытия карточек
+  // Скрытие карточек (с анимацией)
   function hideCards() {
-    if (!cardsAnimated) return; // Если ещё не показывали — нечего скрывать
+    if (!cardsAnimated) return;
 
     cardsAnimated = false;
     cards.forEach(card => {
@@ -533,19 +575,47 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Проверка при скролле
+  // Дебаунс для оптимизации частых вызовов при скролле
+  let scrollTimeout;
+  function debouncedCheckScroll() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(checkScroll, 100);
+  }
+
+  // Основная логика: проверка видимости и управление анимацией
   function checkScroll() {
+    if (!cardsWrapper) return;
+
+    // Фиксируем: пользователь начал скроллить
+    userHasScrolled = true;
+
     const isVisible = isElementInViewport(cardsWrapper);
 
-    if (isVisible) {
-      animateCards();
-    } else {
-      hideCards();
+    if (isInitialized) {
+      if (isVisible && !cardsAnimated) {
+        animateCards();
+      } else if (!isVisible && cardsAnimated) {
+        hideCards();
+      }
     }
   }
 
-  window.addEventListener('load', checkScroll);
-  window.addEventListener('scroll', checkScroll);
+  // Первичная инициализация (после загрузки страницы)
+  function initialize() {
+    if (isInitialized) return;
+    isInitialized = true;
+    // Не запускаем анимацию при загрузке — ждём первого скролла
+  }
+
+  // Обработчики событий
+  window.addEventListener('load', initialize);
+  window.addEventListener('scroll', debouncedCheckScroll);
+  window.addEventListener('resize', () => {
+    // Перепроверяем видимость только если был скролл
+    if (userHasScrolled && isInitialized) {
+      checkScroll();
+    }
+  });
 });
 </script>
 <script>
@@ -629,45 +699,71 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-  const images = document.querySelectorAll('img[data-tooltip]');
-  const tooltip = document.createElement('div');
-  tooltip.className = 'tooltip';
-  document.body.appendChild(tooltip);
+document.addEventListener('DOMContentLoaded', function() {
+  // Обрабатываем элементы с data-tooltip
+  const elements1 = document.querySelectorAll('[data-tooltip]');
+  const tooltip1 = document.createElement('div');
+  tooltip1.className = 'tooltip tooltip-1'; // отдельный класс для стилей
+  document.body.appendChild(tooltip1);
+  let isTooltip1Visible = false;
 
-  let isTooltipVisible = false;
-
-  images.forEach(img => {
-    // При наведении
-    img.addEventListener('mouseover', function(e) {
+  elements1.forEach(el => {
+    el.addEventListener('mouseover', function(e) {
       const text = this.getAttribute('data-tooltip');
-      tooltip.textContent = text;
-      
-      // Позиционируем подсказку справа-снизу от курсора
-      const x = e.clientX + 12; // 12px отступа от курсора
+      tooltip1.textContent = text;
+      const x = e.clientX + 12;
       const y = e.clientY + 12;
-      
-      tooltip.style.left = x + 'px';
-      tooltip.style.top = y + 'px';
-      
-      // Показываем подсказку
-      tooltip.classList.add('show');
-      isTooltipVisible = true;
+      tooltip1.style.left = x + 'px';
+      tooltip1.style.top = y + 'px';
+      tooltip1.classList.add('show');
+      isTooltip1Visible = true;
     });
 
-    // При уходе курсора
-    img.addEventListener('mouseout', function() {
-      tooltip.classList.remove('show');
-      isTooltipVisible = false;
+    el.addEventListener('mouseout', function() {
+      tooltip1.classList.remove('show');
+      isTooltip1Visible = false;
     });
 
-    // При движении курсора обновляем позицию
-    img.addEventListener('mousemove', function(e) {
-      if (isTooltipVisible) {
+    el.addEventListener('mousemove', function(e) {
+      if (isTooltip1Visible) {
         const x = e.clientX + 12;
         const y = e.clientY + 12;
-        tooltip.style.left = x + 'px';
-        tooltip.style.top = y + 'px';
+        tooltip1.style.left = x + 'px';
+        tooltip1.style.top = y + 'px';
+      }
+    });
+  });
+
+  // Обрабатываем элементы с data-tooltip-2
+  const elements2 = document.querySelectorAll('[data-tooltip-2]');
+  const tooltip2 = document.createElement('div');
+  tooltip2.className = 'tooltip tooltip-2'; // отдельный класс для стилей
+  document.body.appendChild(tooltip2);
+  let isTooltip2Visible = false;
+
+  elements2.forEach(el => {
+    el.addEventListener('mouseover', function(e) {
+      const text = this.getAttribute('data-tooltip-2');
+      tooltip2.textContent = text;
+      const x = e.clientX + 12;
+      const y = e.clientY + 12;
+      tooltip2.style.left = x + 'px';
+      tooltip2.style.top = y + 'px';
+      tooltip2.classList.add('show');
+      isTooltip2Visible = true;
+    });
+
+    el.addEventListener('mouseout', function() {
+      tooltip2.classList.remove('show');
+      isTooltip2Visible = false;
+    });
+
+    el.addEventListener('mousemove', function(e) {
+      if (isTooltip2Visible) {
+        const x = e.clientX + 12;
+        const y = e.clientY + 12;
+        tooltip2.style.left = x + 'px';
+        tooltip2.style.top = y + 'px';
       }
     });
   });
