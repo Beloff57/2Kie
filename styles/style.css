@@ -252,13 +252,14 @@ body {
   border-radius: 2vw; /* скругление углов */
   text-decoration: none; /* убираем подчёркивание ссылки */
   color: #2D2D2D; /* цвет текста */
-  width: 21.7vw; /* занимает всю доступную ширину */
+  width: 21.581vw; /* занимает всю доступную ширину */
   box-sizing: border-box; /* включаем отступы в ширину элемента */
   cursor: pointer; /* курсор "рука" при наведении */
   margin-left: 3.938vw;
 }
 
 .icon-wrap-2 {
+  transform: translateX(0.1vw);
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -825,6 +826,7 @@ body {
 
 .kb-1 h2 {
   letter-spacing: -0.12em;
+    padding-right: 2vw;
 }
 
 .kb-2 h2 {
@@ -963,8 +965,8 @@ body {
   overflow-y: auto; /* Если контента больше, чем помещается */
   box-sizing: border-box;
   background-color: #f9f9f9;
-  border-radius: 10px;
-  margin-bottom: 0.313vw;
+  border-radius: 0.75vw;
+  margin-bottom: 1.063vw;
 }
 
 .projects-container {
@@ -985,7 +987,7 @@ body {
   font-family: var(--montserrat); 
   font-weight: 500; 
   color: #2D2D2D; 
-  line-height: 113.9%; 
+  line-height: 114.2%; 
   letter-spacing: -4%; 
   background-color: #F6F6F8;
 }
@@ -1549,15 +1551,16 @@ body {
 }
 
 .social-btn-2 {
-  line-height: 113.9%;
+  font-weight: 600;
+  line-height: 114.2%;
   text-decoration: none;
-  font-family: var(--krona);
+  font-family: var(--montserrat);
   color: #2D2D2D;
-  padding: 0.52vw 1.32vw;
+  padding: 0.3vw 1.32vw 0.404vw 1.32vw;
   background: #C9CAD4;
   border: 1px solid #2D2D2D;
-  border-radius: 23.5px;
-  font-size: 0.75vw;
+  border-radius: 0.688vw;
+  font-size: 0.938vw;
   cursor: pointer;
   margin: 0;
   transition: 
