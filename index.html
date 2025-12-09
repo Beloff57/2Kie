@@ -10,8 +10,9 @@
 <body>
     <div class="page-wrapper">
     <div class="left-scrollable">
+      <section class="hero-section">
   <div class="hero-content">
-    <img src="images/Rectangle 41-min.png" class="hero-img" alt="">
+    <img src="images/Rectangle 41-min.png" class="hero-img" alt="" id="heroImg">
     <div class="hero-overlay">
       <div class="logo-container">
         <a href="" target="_blank">
@@ -30,9 +31,10 @@
     </div>
     <p class="name-studio">nazvanie studii</p>
   </div>
+  </section>
     </div>
     <div class="right-static">
-  <div class="nav-wrapper">
+  <div class="nav-wrapper fade-on-scroll">
     <div class="vertical-links">
       <a href="/cases" class="nav-link">Кейсы</a>
       <a href="/uslugi.html" class="nav-link">Услуги</a>
@@ -40,16 +42,16 @@
     </div>
     <a href="" class="telegram-link">tg: @studio</a>
   </div>
-    <div class="logo-block">
+    <div class="logo-block fade-on-scroll">
         <img src="images/Group 17.svg" alt="2kie Digital Agency">
     </div>
-       <a href="#" class="price-mot-3">
+       <a href="#" class="price-mot-3 fade-on-scroll">
           Обсудить проект
           <div class="icon-wrap-2">
           <img src="images/Arrow 51.svg" class="arrow-icon-2" alt="">
           </div>
       </a>
-        <div class="contact-block">
+        <div class="contact-block fade-on-scroll">
             <div class="social-buttons">
             <a href="" class="social-btn">
               <img src="images/WA-Vector.svg" alt="" class="wa-button">
@@ -76,7 +78,7 @@
         <p>Создаем узнаваемый дизайн, который будет ассоциироваться с компанией и выражать её ценности.</p>
       </div>
       <div class="card-img">
-      <img src="images/foto1.png" alt="Дизайн" class="img-card">
+      <img src="images/fk-1.png" alt="Дизайн" class="img-card">
       </div>
       </div>
     <div class="card-content-alt" style="height: 30vw;">
@@ -120,7 +122,7 @@
         <p>Определяем каким должен быть следующий шаг цифрового продукта</p>
       </div>
       <div class="card-img">
-      <img src="images/cwf1.png" alt="Дизайн" class="img-card">
+      <img src="images/fk-2.png" alt="Дизайн" class="img-card">
       </div>
     </div>
     <div class="card-content-alt">
@@ -162,7 +164,7 @@
         <p>Создаем бренды которые запоминаются и выделяются среди конкурентов</p>
       </div>
       <div class="card-img">
-      <img src="images/foto4.png" alt="Дизайн" class="img-card">
+      <img src="images/fk-3.png" alt="Дизайн" class="img-card">
       </div>
       </div>
           <div class="card-content-alt">
@@ -203,7 +205,7 @@
         <p>Видео и анимация под ваши задачи.</p>
       </div>
       <div class="card-img">
-      <img src="images/cf1.png" alt="Дизайн" class="img-card">
+      <img src="images/fk-4.png" alt="Дизайн" class="img-card">
       </div>
       </div>
     <div class="card-content-alt">
@@ -525,154 +527,124 @@
 </div>
 </footer>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const cards = document.querySelectorAll('.card');
-  const cardsWrapper = document.querySelector('.services-cards-wrapper');
+document.addEventListener('DOMContentLoaded', () => {
+  const wrapper = document.querySelector('.services-cards-wrapper');
+  if (!wrapper) return;
 
-  let cardsAnimated = false;           // Уже анимированы?
-  let userHasScrolled = false;        // Был ли скролл хотя бы раз?
-  let isInitialized = false;            // Инициализация пройдена
+  const cards = Array.from(wrapper.querySelectorAll('.card'));
+  if (!cards.length) return;
 
-  // Порог видимости: карточка «в зоне», если ≥30% её высоты видно
-  const VISIBILITY_THRESHOLD = 0.6;
+  // ------------- НАСТРОЙКИ (менять) -------------
+  const startVh = 50;      // точка старта в vh (когда верх wrapper достигнет 90vh — начинается анимация)
+  const endVh = 25;        // точка окончания в vh (когда верх wrapper достигнет 25vh -> progress = 1)
+  const initialOffset = 160; // px — начальное translateY (сколько "вылетают")
+  const easingPower = 2;  // чем >1 тем более "плавный" вход (можно 1..2)
+  const stagger = 0.12;     // задержка между карточками в долях progress (0..0.3)
+  // -------------------------------------------------
 
-  // Проверка видимости элемента (с точным расчётом видимой доли)
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  let ticking = false;
 
-    const elementHeight = rect.bottom - rect.top;
-    if (elementHeight <= 0) return false; // Невидимый/свёрнутый элемент
+  function clamp(v, a=0, b=1) { return Math.max(a, Math.min(b, v)); }
 
+  function getProgress() {
+    const rect = wrapper.getBoundingClientRect();
+    const vh = window.innerHeight;
 
-    const visibleTop = Math.max(rect.top, 0);
-    const visibleBottom = Math.min(rect.bottom, windowHeight);
-    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+    // нормируем start/end в px от верха окна
+    const startPx = vh * (startVh / 100);
+    const endPx = vh * (endVh / 100);
 
-    const visibleRatio = visibleHeight / elementHeight;
-    return visibleRatio >= VISIBILITY_THRESHOLD;
+    // расстояние от верхней границы wrapper до верхней границы окна
+    const top = rect.top;
+
+    // progress: 0 когда top >= startPx, 1 когда top <= endPx
+    const denom = (startPx - endPx) || 1;
+    let progress = (startPx - top) / denom;
+    progress = clamp(progress, 0, 1);
+
+    return progress;
   }
 
-  // Анимация появления карточек (постепенная)
-  function animateCards() {
-    if (cardsAnimated) return;
+  function update() {
+    ticking = false;
+    const rawProgress = getProgress();
 
-    cardsAnimated = true;
-    cards.forEach((card, index) => {
-      setTimeout(() => {
-        card.classList.add('visible');
-      }, index * 100);
-    });
-  }
+    cards.forEach((card, i) => {
+      // локальный прогресс с учетом stagger
+      const startDelay = i * stagger; // сдвиг старта для каждой карточки
+      // чтобы локальный прогресс доходил до 1, нормируем на (1 - maxDelay)
+      const maxDelay = (cards.length - 1) * stagger;
+      const effectiveDenom = Math.max(1 - startDelay, 0.001);
 
-  // Скрытие карточек (с анимацией)
-  function hideCards() {
-    if (!cardsAnimated) return;
+      // простой вариант: local = (rawProgress - startDelay) / (1 - startDelay)
+      let local = (rawProgress - startDelay) / effectiveDenom;
+      local = clamp(local, 0, 1);
 
-    cardsAnimated = false;
-    cards.forEach(card => {
-      card.classList.remove('visible');
-    });
-  }
+      // easing
+      const eased = Math.pow(local, easingPower);
 
-  // Дебаунс для оптимизации частых вызовов при скролле
-  let scrollTimeout;
-  function debouncedCheckScroll() {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(checkScroll, 100);
-  }
+      // вычисляем transform и opacity
+      const translateY = (1 - eased) * initialOffset; // px
+      const opacity = eased;
 
-  // Основная логика: проверка видимости и управление анимацией
-  function checkScroll() {
-    if (!cardsWrapper) return;
+      // применяем (inline-style)
+      card.style.transform = `translateY(${translateY}px)`;
+      card.style.opacity = String(opacity);
 
-    // Фиксируем: пользователь начал скроллить
-    userHasScrolled = true;
-
-    const isVisible = isElementInViewport(cardsWrapper);
-
-    if (isInitialized) {
-      if (isVisible && !cardsAnimated) {
-        animateCards();
-      } else if (!isVisible && cardsAnimated) {
-        hideCards();
+      // опционально: добавить/убрать класс для pointer-events и SEO
+      if (opacity === 0) {
+        card.classList.add('is-hidden');
+        card.style.pointerEvents = 'none';
+      } else {
+        card.classList.remove('is-hidden');
+        card.style.pointerEvents = 'auto';
       }
+    });
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
     }
   }
 
-  // Первичная инициализация (после загрузки страницы)
-  function initialize() {
-    if (isInitialized) return;
-    isInitialized = true;
-    // Не запускаем анимацию при загрузке — ждём первого скролла
-  }
+  // Подписки
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
 
-  // Обработчики событий
-  window.addEventListener('load', initialize);
-  window.addEventListener('scroll', debouncedCheckScroll);
-  window.addEventListener('resize', () => {
-    // Перепроверяем видимость только если был скролл
-    if (userHasScrolled && isInitialized) {
-      checkScroll();
+  // Инициализируем раз
+  update();
+});
+</script>
+<script>
+const fadeBlocks = document.querySelectorAll('.fade-on-scroll');
+
+// Процент расстояния от низа страницы, в пределах которого элементы исчезают
+const fadePercent = 0.85; // например: исчезают в нижних 15% страницы
+
+window.addEventListener('scroll', () => {
+  const docHeight = document.documentElement.scrollHeight;
+
+  fadeBlocks.forEach(block => {
+    // Позиция верхней точки элемента относительно страницы
+    const elementTopOnPage = window.scrollY + block.getBoundingClientRect().top;
+
+    // Расстояние от элемента до низа страницы
+    const distanceToBottom = docHeight - elementTopOnPage;
+
+    // Порог исчезновения в пикселях
+    const fadeThreshold = docHeight * fadePercent;
+
+    // Проверяем
+    if (distanceToBottom <= fadeThreshold) {
+      block.style.opacity = '0';
+      block.style.pointerEvents = 'none';
+    } else {
+      block.style.opacity = '1';
+      block.style.pointerEvents = 'auto';
     }
   });
-});
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-  const cardsWrapper = document.querySelector('.services-cards-wrapper');
-  const secondSection = document.querySelector('.page-wrapper-2');
-
-  // Функция проверки видимости элемента в окне браузера
-  function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top < window.innerHeight * 0.3
-    );
-  }
-
-  // Функция для обработки скролла
-  function handleScroll() {
-    if (isElementInViewport(secondSection)) {
-      cardsWrapper.classList.add('fade-out'); // Добавляем класс для исчезновения
-    } else {
-      cardsWrapper.classList.remove('fade-out'); // Убираем класс, если второй блок не виден
-    }
-  }
-
-  // Слушаем событие скролла
-  window.addEventListener('scroll', handleScroll);
-
-
-  // Проверяем при загрузке страницы
-  handleScroll();
-});
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-  const cardsWrapper = document.querySelector('.services-cards-wrapper');
-  const rightStatic = document.querySelector('.right-static');
-
-  // Пороговое значение в пикселях от верха viewport
-  // Когда верхняя граница карточек окажется ниже этой точки — блок начнёт исчезать
-  const triggerViewportY = 400; // настройте под свой дизайн
-
-  function checkVisibility() {
-    // Получаем позицию блока относительно viewport
-    const rect = cardsWrapper.getBoundingClientRect();
-    
-    // Если верхняя граница карточек ниже triggerViewportY
-    if (rect.top >= triggerViewportY) {
-      rightStatic.classList.add('hidden');
-    } else {
-      rightStatic.classList.remove('hidden');
-    }
-  }
-
-  // Вызываем при загрузке, скролле и ресайзе
-  window.addEventListener('load', checkVisibility);
-  window.addEventListener('scroll', checkVisibility);
-  window.addEventListener('resize', checkVisibility);
 });
 </script>
 <script>
@@ -942,13 +914,36 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
 
-  const throttledCheck = throttle(checkVisibility, 100);
+  const throttledCheck = throttle(checkVisibility, 1000);
   window.addEventListener('scroll', throttledCheck);
   window.addEventListener('resize', throttledCheck);
 
   // Первоначальная проверка видимости
   checkVisibility();
 });
+</script>
+<script>
+document.addEventListener("scroll", () => {
+  const scrollBlock = document.querySelector(".left-scrollable");
+  const heroImg = document.querySelector(".hero-img");
+
+  const blockTop = scrollBlock.offsetTop;
+  const blockHeight = scrollBlock.offsetHeight;
+  const scrollY = window.scrollY;
+
+  const progress = Math.min(
+    Math.max((scrollY - blockTop) / (blockHeight - window.innerHeight), 0),
+    1
+  );
+
+  // === Высота изображения в vw ===
+  const startHeight = 45;
+  const endHeight = 40;
+
+  const newHeight = startHeight - (startHeight - endHeight) * progress;
+  heroImg.style.height = newHeight + "vw";
+});
+
 </script>
 </body>
 </html>
