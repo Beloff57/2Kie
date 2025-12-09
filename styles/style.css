@@ -32,15 +32,25 @@ body {
 
 .left-scrollable {
   width: 70vw; 
-  overflow-y: auto;
+  overflow-y: visible;
   padding: 1.125vw 1.25vw;
   padding-right: 0px;
   box-sizing: border-box;
+  height: 45vw;         /* hero-прокрутка */
+  position: relative;
+}
+
+.hero-section {
+  height: 250vw;          /* Длина прокрутки в vw */
+  position: relative;
 }
 
 .hero-content {
-  position: relative;
+  position: sticky;
+    top: 0;
   width: 100%;
+    height: 100vw;          /* Сам блок фиксирован на экране */
+  overflow: hidden;
   margin: 0 auto; /* Центрируем контейнер */
   height: auto;
   display: block;
@@ -48,6 +58,9 @@ body {
 
 .hero-img {
   width: 68vw;
+    height: 45vw;           /* Стартовая высота (пример) */
+  object-fit: cover;
+  transition: height 0.1s linear;
 }
 
 .hero-overlay {
@@ -163,13 +176,12 @@ body {
   background-color: #D4D5DE;
   padding: 0px;
   z-index: 1;
-  opacity: 0;
   transition: opacity 0.3s ease-in-out;
   margin-left: 0;
 }
 
-.right-static.hidden {
-  opacity: 1;
+.fade-on-scroll {
+  transition: opacity 0.4s ease;
 }
 
 .nav-wrapper {
@@ -311,7 +323,7 @@ body {
 .social-btn-1-3 {
   line-height: 114.2%;
   letter-spacing: -3%;
-  font-weight: medium;
+  font-weight: 500;
   text-decoration: none;
   font-family: var(--montserrat);
   color: #FFFFFF;
@@ -336,13 +348,12 @@ body {
 
 .services-cards-wrapper {
   position: absolute; /* Ключевой момент — выносим поверх других блоков */
-
-  transform: translate(0.6vw, 40vw); /* Корректируем смещение */
+  transform: translate(0.6vw, 29vw); /* Корректируем смещение */
   z-index: 10; /* Гарантируем отображение поверх других элементов */
   display: flex; /* Располагаем карточки в ряд */
   align-items:flex-end;
   gap: 1.375vw; /* Отступы между карточками */
-  padding: 0.625vw; /* Отступы от краёв .page-wrapper */
+  padding: 0.62vw; /* Отступы от краёв .page-wrapper */
   opacity: 1;
   transition: opacity 0.8s ease-in-out; /* Плавное исчезновение */
 }
@@ -412,14 +423,15 @@ body {
   background: #F6F6F8;
   border-radius: 0.75vw;
   overflow: hidden;
-    width: 23.37vw; /* Фиксированная ширина */
+    width: 23vw; /* Фиксированная ширина */
    display: flex; /* Включаем flex для внутренней компоновки */
   flex-direction: column; /* Элементы идут вертикально */
   justify-content: space-between; /* Равномерное распределение по высоте */
   height: 100%;
   opacity: 0;
-  transform: translateY(0px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transform: translateY(200px);
+  will-change: transform, opacity;
+  transition: none; /* отключаем CSS-переходы — управление через JS */
 }
 
 .card.visible {
@@ -489,19 +501,19 @@ body {
 }
 
 .card-strelka {
-  margin-left: 12vw;
-}
-
-.card-strelka-2 {
-  margin-left: 10vw;
-}
-
-.card-strelka-3 {
   margin-left: 11vw;
 }
 
+.card-strelka-2 {
+  margin-left: 9vw;
+}
+
+.card-strelka-3 {
+  margin-left: 10vw;
+}
+
 .card-strelka-4 {
-  margin-left: 11.5vw;
+  margin-left: 10.5vw;
 }
 
 .strelka-1 {
@@ -534,6 +546,7 @@ body {
 .img-card {
   width: 20vw;
   height: 12.625vw;
+  border-radius: 0.5vw;
 }
 
 .card-content-primary {
@@ -967,6 +980,7 @@ body {
   background-color: #f9f9f9;
   border-radius: 0.75vw;
   margin-bottom: 1.063vw;
+  padding-bottom: 0.5vw;
 }
 
 .projects-container {
@@ -981,7 +995,7 @@ body {
 
 .projects-container h2 {
   margin: 0 0 0 0; 
-  padding: 1.188vw 1.875vw 1vw; 
+  padding: 1.188vw 1.875vw 1.25vw 1.875vw; 
   margin-bottom: 0; 
   font-size: 1.25vw; 
   font-family: var(--montserrat); 
@@ -1907,10 +1921,21 @@ body {
 
 
 @media (max-width: 440px) {
+
+.page-wrapper {
+  display: flex;
+  height: 100%;
+  margin: 0; 
+  padding: 0;
+  box-sizing: border-box;
+  margin-bottom: 34.75vw;
+}
+
   .right-static {
     position: absolute;
     width: 100%;
     height: 55vw;
+    opacity: 1;
   }
 
   .vertical-links {
@@ -1964,5 +1989,737 @@ body {
 .right-static .logo-block img {
   width: 68.409vw;
   height: auto;
+}
+
+.left-scrollable {
+  margin-top: 66vw;
+  width: 100%; 
+  overflow-y: auto;
+  padding-left: 3.636vw;
+  padding-right: 0px;
+  box-sizing: border-box;
+}
+
+.hero-content {
+  position: relative;
+  width: 100%;
+  margin: 0 auto; /* Центрируем контейнер */
+  height: auto;
+  display: block;
+}
+
+.hero-img {
+  width: 92.727vw;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between; 
+  align-items:flex-start; 
+  padding: 0.813vw 0.875vw; 
+  box-sizing: border-box;
+}
+
+.logo-container {
+  flex: 0 0 auto;
+  width: 3.008vw;
+  height: 1.356vw;
+  transition: transform 0.3s ease, 0.3s ease;
+}
+
+.h-logo {
+  width: 3.008vw;
+  height: 1.356vw;
+}
+
+.logo-container:hover {
+  transform: scale(1.2);
+  display: block;
+}
+
+.showreel-btn {
+  flex: 0 0 auto;
+  margin-left: 55vw;
+  margin-top: 0.4vw;
+}
+
+.showreel-btn a {
+  line-height: 114.2%;
+  font-weight:600;
+  font-family: var(--montserrat);
+  text-decoration: none;
+  color: #2D2D2D;
+  font-size: 0.75vw;
+  padding: 0.25vw 0.7vw 0.35vw 0.7vw;
+  background-color: #FFFFFF;
+  border-radius: 1.438vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.showreel-btn a:hover {
+  background-color: #2D2D2D;
+  color: #FFFFFF;
+}
+
+.mute-btn {
+  width: 1.138vw;
+  height: 1.138vw;
+  flex: 0 0 auto;
+  margin-left: 0;
+  cursor: pointer;
+  margin-right: 1.1vw;
+  margin-top: 0.4vw;
+}
+
+.btn-mute {
+  width: 1.188vw;
+  height: 1.188vw;
+}
+
+.play-btn {
+  display: none;
+}
+
+.name-studio {
+display: none;
+}
+
+.services-cards-wrapper {
+  position: absolute; /* Ключевой момент — выносим поверх других блоков */
+  transform: translate(0.6vw, 132vw); /* Корректируем смещение */
+  z-index: 10; /* Гарантируем отображение поверх других элементов */
+  display: flex; /* Располагаем карточки в ряд */
+  align-items:flex-end;
+  gap: 1.375vw; /* Отступы между карточками */
+  padding: 0.62vw; /* Отступы от краёв .page-wrapper */
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out; /* Плавное исчезновение */
+}
+
+.services-cards-wrapper.fade-out {
+  opacity: 0; /* Конечное состояние — полностью прозрачен */
+}
+
+
+.block-alternative {
+  display: none; /* Скрываем альтернативный блок по умолчанию */
+  transition: opacity 0.3s ease;
+}
+
+.price-mot-2 {
+  font-family: var(--montserrat);
+  font-size: 18px;
+  line-height: 113.9%;
+  letter-spacing: -4%;
+  font-weight: 400;
+  display: flex; /* делаем flex-контейнер для выравнивания текста и стрелки */
+  align-items: center; /* центрируем элементы по вертикали */
+  justify-content: space-between; /* распределяем текст и стрелку по краям */
+  padding-left: 17px;
+  background: transparent; /* фон прозрачный, как на скрине */
+  border: 1px solid #2D2D2D; /* обводка кнопки */
+  border-radius: 23.5px; /* скругление углов */
+  text-decoration: none; /* убираем подчёркивание ссылки */
+  color: #2D2D2D; /* цвет текста */
+  width: 33.12vh; /* занимает всю доступную ширину */
+  box-sizing: border-box; /* включаем отступы в ширину элемента */
+  cursor: pointer; /* курсор "рука" при наведении */
+  margin-left: 6vh;
+}
+
+.icon-wrap .arrow-icon-2{
+  display:block;
+  width:16px;               
+  height:auto;
+}
+
+.icon-wrap {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:15.2px 15.2px;            
+  box-sizing:border-box;    
+  border:1px solid #2D2D2D;
+  border-radius:23.5px;
+  margin-left: 10%;
+}
+
+/* При наведении на .card — скрываем основную, показываем альтернативную */
+.card:hover .card-content-primary {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.card:hover .card-content-alt {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Теперь можно кликать/наводить */
+}
+
+
+.card {
+  background: #F6F6F8;
+  border-radius: 0.75vw;
+  overflow: hidden;
+    width: 23.37vw; /* Фиксированная ширина */
+   display: flex; /* Включаем flex для внутренней компоновки */
+  flex-direction: column; /* Элементы идут вертикально */
+  justify-content: space-between; /* Равномерное распределение по высоте */
+  height: 100%;
+  opacity: 0;
+  transform: translateY(0px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(-11vw);
+}
+
+.card:hover {
+  transform: translateY(-12vw); /* Эффект при наведении */
+}
+
+.card-header {
+    font-size: 0.875vw;
+  display: flex;
+  align-items: center;
+  padding-left: 1.375vw;
+  padding-top: 1.375vw;
+  color: white;
+  gap: 0.125vw;
+}
+
+.zagolovok {
+    font-size: 1.125vw;
+    font-family: var(--montserrat);
+    color: #2D2D2D;
+    font-weight: 600;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+.card-number {
+  display: inline-block;
+  text-align: center;
+  width: 0.6vw;
+  font-family: var(--montserrat);
+  background: #2D2D2D;
+  color: white;
+  padding: 0.4vw 0.599vw;
+  border-radius: 50%;
+  font-weight: 500;
+  line-height: 114.2%;
+  letter-spacing: 0%;
+}
+
+.card-title {
+    background: #2D2D2D;
+    padding: 0.4vw 0.938vw;
+    border-radius: 3vw;
+  font-family: var(--montserrat);
+  font-size: 0.875vw;
+  font-weight: 500;
+  line-height: 114.2%;
+  letter-spacing: -4%;
+}
+
+.card-strelka,
+.card-strelka-2,
+.card-strelka-3,
+.card-strelka-4 {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0.524vw;            
+  box-sizing:border-box;    
+  border:1px solid #2D2D2D;
+  border-radius: 3vw;
+}
+
+.card-strelka {
+  margin-left: 12vw;
+}
+
+.card-strelka-2 {
+  margin-left: 10vw;
+}
+
+.card-strelka-3 {
+  margin-left: 11vw;
+}
+
+.card-strelka-4 {
+  margin-left: 11.5vw;
+}
+
+.strelka-1 {
+  width: 0.65vw;
+  height: 0.65vw;
+}
+
+.card-content {
+    width: 18.133vw;
+    font-family: var(--montserrat);
+  padding-left: 1.375vw;
+  padding-top: 2vw;
+  font-size: 0.813vw;
+  color: #828282;
+  line-height: 136%;
+}
+
+.card-img {
+    display: flex;
+    align-items:flex-end;
+    justify-content: center;
+  width: 100%;
+  height: 100%; /* Фиксированная высота изображения */
+  object-fit: cover;
+  border-radius: 0.75vw;
+  margin-top: auto;
+  padding-bottom: 1.32vw;
+}
+
+.img-card {
+  width: 20vw;
+  height: 12.625vw;
+}
+
+.card-content-primary {
+  background: #F6F6F8;
+  border-radius: 0.75vw;
+  overflow: hidden;
+    width: 23.12vw; /* Фиксированная ширина */
+   display: flex; /* Включаем flex для внутренней компоновки */
+  flex-direction: column; /* Элементы идут вертикально */
+  justify-content: space-between; /* Равномерное распределение по высоте */
+  height: 100%;
+  opacity: 0;
+  transform: translateY(0px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.card {
+  position: relative; /* Важно для позиционирования альтернативной карточки */
+  overflow: hidden;
+}
+
+/* Основная карточка — видна по умолчанию */
+.card-content-primary {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Альтернативная карточка — скрыта по умолчанию */
+.card-content-alt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 23.4vw;
+  height: 100%;
+  background: #000000; 
+  border-radius: 0.75vw;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none; /* Не реагирует на события мыши, пока скрыта */
+}
+
+.card-header-2 {
+    font-size: 0.875vw;
+  display: flex;
+  align-items: center;
+  padding: 0.625vw;
+  color: white;
+  gap: 0.125vw;
+}
+
+.zagolovok-2 {
+    font-size: 2.5vw;
+    font-family: var(--montserrat);
+    color: #FFFFFF;
+    line-height: 113.9%;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding-bottom: 0;
+    margin: 0;
+    margin-bottom: 0.455vw;
+}
+
+.card-number-2 {
+  width: 0.5vw;
+  font-family: var(--montserrat);
+  background: #000000;
+  color: white;
+  padding: 0.313vw 0.625vw;
+  border-radius: 50%;
+}
+
+.card-title-2 {
+  color: #FFFFFF;
+    background: #000000;
+    padding: 0.25vw 0.938vw;
+    border-radius: 3vw;
+  font-family: var(--krona);
+  font-size: 0.875vw;
+  font-weight: 400;
+}
+
+.card-content-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+    width: 18.133vw;
+    font-family: var(--montserrat);
+  padding: 1.313vw;
+  font-size: 0.813vw;
+  color: #828282;
+  line-height: 136%;
+}
+
+.btn-cont-1 {
+  height: 5.375vw;
+  margin-bottom: 0.375vw;
+}
+
+.komp-button {
+  display: flex;
+  flex-wrap: wrap;
+  width: 15.669vw;
+}
+
+.komplect-btn {
+  line-height: 113.9%;
+  font-family: var(--krona);
+  text-decoration: none;
+  color: #2D2D2D;
+  font-weight: 500;
+  font-size: 0.75vw;
+  padding: 0.313vw 0.625vw;
+  background-color: #FFFFFF;
+  border-radius: 3vw;
+  margin-right: 0.188vw;
+  margin-bottom: 0.313vw;
+}
+
+.card-price {
+  font-family: var(--montserrat);
+  font-size: 1.125vw;
+  color: #FFFFFF;
+  line-height: 113.9%;
+  letter-spacing: -3%;
+  font-weight: 600;
+  margin-bottom: 10vw;
+}
+
+.card-price-2 {
+  font-family: var(--montserrat);
+  font-size: 1.125vw;
+  color: #FFFFFF;
+  line-height: 113.9%;
+  letter-spacing: -3%;
+  font-weight: 600;
+  padding-top: 2.125vw;
+  margin-bottom: 9.6vw;
+}
+
+.card-price-3 {
+  font-family: var(--montserrat);
+  font-size: 1.125vw;
+  color: #FFFFFF;
+  line-height: 113.9%;
+  letter-spacing: -3%;
+  font-weight: 600;
+  padding-top: 2.125vw;
+  margin-bottom: 6vw;
+}
+
+.card-price-4 {
+  font-family: var(--montserrat);
+  font-size: 1.125vw;
+  color: #FFFFFF;
+  line-height: 113.9%;
+  letter-spacing: -3%;
+  font-weight: 600;
+  padding-top: 2.125vw;
+  margin-bottom: 4vw;
+}
+
+.price-mot {
+  font-family: var(--montserrat);
+  font-size: 1.125vw;
+  line-height: 113.9%;
+  letter-spacing: -4%;
+  font-weight: 400;
+  display: flex; /* делаем flex-контейнер для выравнивания текста и стрелки */
+  align-items: center; /* центрируем элементы по вертикали */
+  justify-content: space-between; /* распределяем текст и стрелку по краям */
+  padding-left: 1.063vw;
+  background: transparent; /* фон прозрачный, как на скрине */
+  border: 1px solid #FFFFFF; /* обводка кнопки */
+  border-radius: 3vw; /* скругление углов */
+  text-decoration: none; /* убираем подчёркивание ссылки */
+  color: #FFFFFF; /* цвет текста */
+  width: 20.5vw; /* занимает всю доступную ширину */
+  box-sizing: border-box; /* включаем отступы в ширину элемента */
+  cursor: pointer; /* курсор "рука" при наведении */
+}
+
+.arrow-icon {
+  font-size: 1vw; /* размер стрелки */
+  margin-left: 0.625vw; /* отступ от текста до стрелки */
+  border: 1px solid #FFFFFF;
+  border-radius: 3vw;
+  padding: 0.70vw 0.419vw;
+}
+
+/* При наведении на .card — скрываем основную, показываем альтернативную */
+.card:hover .card-content-primary {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.card:hover .card-content-alt {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Теперь можно кликать/наводить */
+}
+
+.komanda-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%; 
+  position: relative;
+}
+
+.komanda-scrollable {
+  margin-top: 55vw;
+  width: 70vw;
+  padding-left: 3.636vw;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.komanda-img {
+  width: 68vw;
+}
+
+.komanda-content {
+  width: 68vw;
+  position: relative; 
+  height: 28.3vw;
+}
+
+.komanda-overlay {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  padding: 1.25vw; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+.komanda-logo {
+  margin-bottom: 17.063vw; 
+}
+
+.logo-k {
+  width: 5.268vw;
+  height: 2.375vw;
+}
+
+.komanda-name {
+  font-family: var(--montserrat);
+  width: 59vw;
+  color: #FFFFFF; 
+  font-size: 3.409vw; 
+  line-height: 114.2%; 
+  margin-left: 30vw; 
+  transform: translateY(-24vw);
+  letter-spacing: -4%;
+  font-weight: 500;
+}
+
+.komanda-bloki {
+  display: block;
+  width: 92.727vw;
+  gap: 0.375vw;
+  margin-top: 1.364vw;
+}
+
+.kb-1,
+.kb-2,
+.kb-3 {
+  background-color: #F6F6F8;
+  width: 92.727vw;
+  height: 47.5vw;
+  border-radius: 0.75vw;
+}
+
+.kb-1,
+.kb-2 {
+  margin-bottom: 1.364vw;
+}
+
+.kb-1 h2,
+.kb-2 h2,
+.kb-3 h2 {
+  font-size: 7.188vw;
+  font-family: var(--vazirmatn);
+  color: #2D2D2D;
+  line-height: 114.2%;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 1.688vw;
+}
+
+.kb-1 h2 {
+  letter-spacing: -0.12em;
+    padding-right: 2vw;
+}
+
+.kb-2 h2 {
+  letter-spacing: -0.09em;
+}
+
+.kb-3 h2 {
+  padding-right: 1vw;
+  letter-spacing: -0.12em;
+}
+
+.kb-1 p,
+.kb-2 p,
+.kb-3 p {
+  width: 15.813vw;
+  text-align: center;
+  font-family: var(--montserrat);
+  font-size: 1vw;
+  line-height: 114.2%;
+  letter-spacing: -3%;
+  font-weight: 500;
+  margin: 0;
+  padding-bottom: 1.688vw;
+  padding-left: 3vw;
+  color: #8B8B8B;
+}
+
+.komanda-static {
+  width: 100%;
+  position: absolute; /* Ключевое свойство: «прилипает» при скролле */
+  top: 0; /* Прилипает к верху окна */
+  height: 20vw;
+  align-self: start; /* Выравниваем сверху */
+  background-color: #D4D5DE; /* Фоновый цвет для наглядности */
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.zag-k {
+  display: flex;
+  align-items: center;
+}
+
+.zag-k h3 {
+  text-transform: uppercase;
+  margin-top: 1.563vw;
+  line-height: 113.9%;
+  font-weight: 700;
+  font-family: var(--montserrat);
+  margin-bottom: 1.25vw;
+  font-size: 9.091vw;
+  color: #333333;
+  margin-left: 3.938vw;
+  padding-bottom: 0px;
+}
+
+.k-list {
+  list-style: none;
+  padding: 0;
+  display: block;
+  flex-wrap: wrap;
+  margin-left: 3.938vw;
+  transform: translateY(-1.5vw);
+}
+
+.category {
+  width: 72vw;
+  font-family: var(--montserrat);
+  font-size: 3.182vw;
+  line-height: 113.9%;
+  letter-spacing: -4%;
+  font-weight: 500;
+  margin-bottom: 0.5vw;
+  color: #2D2D2D;
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+}
+
+.category span {
+  font-family: var(--montserrat);
+  font-size: 3.182vw;
+  line-height: 113.9%;
+  letter-spacing: -4%;
+  font-weight: 500;
+  color: #979797;
+  display: inline-block;   
+  width: 1.25vw;             
+  text-align: left;        
+  white-space: nowrap;
+}
+
+.category {
+  opacity: 1;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.category.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ar-cont {
+  margin-top: 0.4vw;
+  display: inline-block; /* Чтобы корректно работали размеры */
+  transition: transform 0.3s ease; /* Плавный переход для масштабирования */
+  display: flex;
+  align-items: center;
+}
+
+.icon-wrap-1 {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:1.595vw;            
+  box-sizing:border-box;    
+  border:1px solid #2D2D2D;
+  border-radius:4vw;
+  margin-left: 2vw;
+}
+
+.icon-wrap-1 .arrow-icon-1 {
+  width: 3.636vw;
+  height: 3.636vw;
+}
+
+/* Эффекты при наведении */
+.ar-cont:hover {
+  transform: scale(1.1); /* Увеличиваем контейнер на 10 % */
+}
+
+.ar-cont:hover img {
+  width: 1.3vw; /* Увеличиваем ширину стрелки */
+  transform: scale(1.05); /* Дополнительно масштабируем изображение */
 }
 }
