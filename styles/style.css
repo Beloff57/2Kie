@@ -32,25 +32,15 @@ body {
 
 .left-scrollable {
   width: 70vw; 
-  overflow-y: visible;
+  overflow-y: auto;
   padding: 1.125vw 1.25vw;
   padding-right: 0px;
   box-sizing: border-box;
-  height: 45vw;         /* hero-прокрутка */
-  position: relative;
-}
-
-.hero-section {
-  height: 250vw;          /* Длина прокрутки в vw */
-  position: relative;
 }
 
 .hero-content {
-  position: sticky;
-    top: 0;
+  position: relative;
   width: 100%;
-    height: 100vw;          /* Сам блок фиксирован на экране */
-  overflow: hidden;
   margin: 0 auto; /* Центрируем контейнер */
   height: auto;
   display: block;
@@ -58,9 +48,6 @@ body {
 
 .hero-img {
   width: 68vw;
-    height: 45vw;           /* Стартовая высота (пример) */
-  object-fit: cover;
-  transition: height 0.1s linear;
 }
 
 .hero-overlay {
@@ -1353,8 +1340,8 @@ body {
 }
 
 .icon-wrap-1 .arrow-icon-1 {
-  width: 1.3vw;
-  height: 1.3vw;
+  width: 1.2vw;
+  height: 1.2vw;
 }
 
 /* Эффекты при наведении */
@@ -1379,8 +1366,8 @@ body {
 }
 
 .icon-wrap-1-1 .arrow-icon-1-1 {
-  width: 1.3vw;
-  height: 1.3vw;
+  width: 1.2vw;
+  height: 1.2vw;
 }
 
 .projects-filter h3 {
