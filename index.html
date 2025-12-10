@@ -10,7 +10,6 @@
 <body>
     <div class="page-wrapper">
     <div class="left-scrollable">
-      <section class="hero-section">
   <div class="hero-content">
     <img src="images/Rectangle 41-min.png" class="hero-img" alt="" id="heroImg">
     <div class="hero-overlay">
@@ -31,7 +30,6 @@
     </div>
     <p class="name-studio">nazvanie studii</p>
   </div>
-  </section>
     </div>
     <div class="right-static">
   <div class="nav-wrapper fade-on-scroll">
@@ -536,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ------------- НАСТРОЙКИ (менять) -------------
   const startVh = 50;      // точка старта в vh (когда верх wrapper достигнет 90vh — начинается анимация)
-  const endVh = 25;        // точка окончания в vh (когда верх wrapper достигнет 25vh -> progress = 1)
+  const endVh = 35;        // точка окончания в vh (когда верх wrapper достигнет 25vh -> progress = 1)
   const initialOffset = 160; // px — начальное translateY (сколько "вылетают")
   const easingPower = 2;  // чем >1 тем более "плавный" вход (можно 1..2)
   const stagger = 0.12;     // задержка между карточками в долях progress (0..0.3)
@@ -921,29 +919,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Первоначальная проверка видимости
   checkVisibility();
 });
-</script>
-<script>
-document.addEventListener("scroll", () => {
-  const scrollBlock = document.querySelector(".left-scrollable");
-  const heroImg = document.querySelector(".hero-img");
-
-  const blockTop = scrollBlock.offsetTop;
-  const blockHeight = scrollBlock.offsetHeight;
-  const scrollY = window.scrollY;
-
-  const progress = Math.min(
-    Math.max((scrollY - blockTop) / (blockHeight - window.innerHeight), 0),
-    1
-  );
-
-  // === Высота изображения в vw ===
-  const startHeight = 45;
-  const endHeight = 40;
-
-  const newHeight = startHeight - (startHeight - endHeight) * progress;
-  heroImg.style.height = newHeight + "vw";
-});
-
 </script>
 </body>
 </html>
