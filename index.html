@@ -247,15 +247,15 @@
     </div>
     <div class="komanda-bloki">
       <div class="kb-1">
-        <h2>18</h2>
+        <h2 data-start="11" data-end="18" data-speed="800">18</h2>
         <p>Мидл и сеньерных специалистов в команде</p>
       </div>
       <div class="kb-2">
-        <h2>210+</h2>
+        <h2 data-start="200" data-end="210" data-speed="800" data-suffix="+">210+</h2>
         <p>Реализованных проектах в разных сферах</p>
       </div>
       <div class="kb-3">
-        <h2>11</h2>
+        <h2 data-start="8" data-end="11" data-speed="700">11</h2>
         <p>Место по дизайну цифровых продуктов в Рейтинге Рунета</p>
       </div>
     </div>
@@ -382,14 +382,14 @@
     <div class="project-content-2">
   <div class="photo-block">
     <div class="row-1">
-      <div class="image-container">
+      <div class="image-container-1">
         <img src="images/foto1.png" alt="Фото 1" class="photo-506" data-tooltip="Описание первой фотографии">
         <div class="button-group">
           <a href="#" class="btn-wht">Branding</a>
           <a href="#" class="btn-wht">Logo</a>
         </div>
       </div>
-      <div class="image-container">
+      <div class="image-container-1">
         <img src="images/foto2.png" alt="Фото 2" class="photo-506" data-tooltip="Проект &quot;Hungry panda&quot;">
         <div class="button-group">
           <a href="#" class="btn-wht">Branding</a>
@@ -398,7 +398,7 @@
       </div>
     </div>
     <div class="row-2">
-      <div class="image-container">
+      <div class="image-container-2">
         <img src="images/foto3.png" alt="Фото 3 (растянутое)" class="photo-1032" data-tooltip-2="Описание третьей фотографии">
         <div class="button-group-2">
           <a href="#" class="btn-wht">Branding</a>
@@ -407,14 +407,14 @@
       </div>
     </div>
     <div class="row-3">
-      <div class="image-container">
+      <div class="image-container-1">
         <img src="images/foto4.png" alt="Фото 4" class="photo-506" data-tooltip="Описание четвёртой фотографии">
         <div class="button-group">
           <a href="#" class="btn-drk">Design</a>
           <a href="#" class="btn-drk">Logo</a>          
         </div>
       </div>
-      <div class="image-container">
+      <div class="image-container-1">
         <img src="images/foto5.png" alt="Фото 5" class="photo-506" data-tooltip="Описание пятой фотографии">
         <div class="button-group">
           <a href="#" class="btn-drk">Branding</a>
@@ -423,8 +423,8 @@
       </div>
     </div>
         <div class="row-4">
-      <div class="image-container">
-        <img src="images/foto3.png" alt="Фото 3 (растянутое)" class="photo-1032" data-tooltip-2="Описание шестой фотографии">
+      <div class="image-container-2">
+        <img src="images/foto3.png" alt="Фото 6 (растянутое)" class="photo-1032" data-tooltip-2="Описание шестой фотографии">
         <div class="button-group-2">
           <a href="#" class="btn-wht">Branding</a>
           <a href="#" class="btn-wht">Logo</a>
@@ -432,15 +432,15 @@
       </div>
     </div>
     <div class="row-5">
-      <div class="image-container">
-        <img src="images/foto4.png" alt="Фото 4" class="photo-506" data-tooltip="Описание седьмой фотографии">
+      <div class="image-container-1">
+        <img src="images/foto4.png" alt="Фото 7" class="photo-506" data-tooltip="Описание седьмой фотографии">
         <div class="button-group">
           <a href="#" class="btn-drk">Design</a>
           <a href="#" class="btn-drk">Logo</a>          
         </div>
       </div>
-      <div class="image-container">
-        <img src="images/foto5.png" alt="Фото 5" class="photo-506" data-tooltip="Описание восьмой фотографии">
+      <div class="image-container-1">
+        <img src="images/foto5.png" alt="Фото 8" class="photo-506" data-tooltip="Описание восьмой фотографии">
         <div class="button-group">
           <a href="#" class="btn-drk">Branding</a>
           <a href="#" class="btn-drk">Logo</a>
@@ -918,6 +918,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Первоначальная проверка видимости
   checkVisibility();
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".komanda-bloki h2");
+  let triggered = false; // чтобы запустить один раз
+
+  const animateCounter = (el) => {
+    const start = +el.dataset.start || 0;
+    const end = +el.dataset.end || 0;
+    const duration = +el.dataset.speed || 1000;
+    const suffix = el.dataset.suffix || "";
+
+    let startTime = null;
+
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const value = Math.floor(progress * (end - start) + start);
+
+      el.textContent = value + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !triggered) {
+        triggered = true; // запускаем один раз
+        counters.forEach(counter => animateCounter(counter));
+        observer.disconnect(); // отключаем наблюдатель
+      }
+    });
+  }, { threshold: 0.3 }); // 30% появления в зоне видимости
+
+  observer.observe(document.querySelector(".komanda-bloki"));
 });
 </script>
 </body>
