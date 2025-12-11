@@ -27,13 +27,13 @@ body {
   margin: 0; 
   padding: 0;
   box-sizing: border-box;
-  margin-bottom: 18.75vw;
+  margin-bottom: 20vw;
 }
 
 .left-scrollable {
   width: 70vw; 
   overflow-y: auto;
-  padding: 1.125vw 1.25vw;
+  padding: 0.75vw 0.813vw;
   padding-right: 0px;
   box-sizing: border-box;
 }
@@ -158,7 +158,7 @@ body {
   position: fixed; 
   right: 0;
   top: 0;
-  width: 29.8vw;
+  width: 30vw;
   height: 100vw; 
   background-color: #D4D5DE;
   padding: 0px;
@@ -748,7 +748,7 @@ body {
 
 .komanda-scrollable {
   width: 70vw;
-  padding-left: 1.25vw;
+  padding-left: 0.75vw;
   box-sizing: border-box;
   z-index: 20;
 }
@@ -855,7 +855,8 @@ body {
 }
 
 .komanda-static {
-  width: 30vw;
+  padding-top: 1vw;
+  width: 31vw;
   position: sticky; /* Ключевое свойство: «прилипает» при скролле */
   top: 0; /* Прилипает к верху окна */
   height: 20vw;
@@ -879,7 +880,7 @@ body {
   margin-bottom: 1.25vw;
   font-size: 3vw;
   color: #333333;
-  margin-left: 3.938vw;
+  margin-left: 3.8vw;
   padding-bottom: 0px;
 }
 
@@ -944,7 +945,7 @@ body {
   width: 70vw; 
   overflow-y: auto;
   padding-top: 1.063vw;
-  padding-left: 1.25vw;
+  padding-left: 0.75vw;
   padding-bottom: 2.688vw;
   padding-right: 0px;
   box-sizing: border-box;
@@ -1078,7 +1079,6 @@ body {
 }
 
 .separator-3 {
-  width: 100vh;
   border-bottom: 1px solid #D0D0D0;
   margin-top: 0px;
   margin-right: 0;
@@ -1114,8 +1114,12 @@ body {
   width: 0; /* Начинаем с нулевой ширины */
   height: 100%;
   background-color: #2D2D2D; /* Цвет заполнения при наведении */
-  transition: width 0.5s ease-in-out;
+  transition: width 0.8s cubic-bezier(0.2, 0.7, 0.1, 1);
   z-index: 1;
+}
+
+.separator-3:hover::before {
+  width: 100%;
 }
 
 /* При наведении на карточку — запускаем анимацию заполнения */
@@ -1207,7 +1211,36 @@ body {
   opacity: 1;
 }
 
-.image-container {
+.image-container-1 {
+  position: relative;
+  overflow: hidden;          /* главное: обрезаем изображение за пределами контейнера */
+  border-radius: 0.75vw;        /* если нужно закругление */
+  display: block;
+  width: 68vw;
+  height: 21.33vw;
+  margin-right: 0vw; /* Отступы между элементами */
+}
+
+/* картинка растягиваем по контейнеру и готовим к трансформации */
+.image-container-1 img {
+  display: block;
+  width: 100%;               /* заполняет контейнер по ширине */
+  height: 21.33vw;              /* заполняет контейнер по высоте */
+  object-fit: cover;         /* сохраняет охват, без искажения */
+  object-position: center;   /* центрируем содержимое при увеличении */
+  transform-origin: center center; /* точка масштабирования */
+  transition: transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
+  will-change: transform;    /* hint браузеру для ускорения */
+  backface-visibility: hidden;
+}
+
+/* сам эффект zoom — значение scale можно менять */
+.image-container-1:hover img,
+.image-container-1.zoom-active img { /* .zoom-active — для touch */
+  transform: scale(1.12);    /* увеличиваем на 12% */
+}
+
+.image-container-2 {
   position: relative;
   overflow: hidden;          /* главное: обрезаем изображение за пределами контейнера */
   border-radius: 0.75vw;        /* если нужно закругление */
@@ -1218,7 +1251,7 @@ body {
 }
 
 /* картинка растягиваем по контейнеру и готовим к трансформации */
-.image-container img {
+.image-container-2 img {
   display: block;
   width: 100%;               /* заполняет контейнер по ширине */
   height: 100%;              /* заполняет контейнер по высоте */
@@ -1231,8 +1264,8 @@ body {
 }
 
 /* сам эффект zoom — значение scale можно менять */
-.image-container:hover img,
-.image-container.zoom-active img { /* .zoom-active — для touch */
+.image-container-2:hover img,
+.image-container-2.zoom-active img { /* .zoom-active — для touch */
   transform: scale(1.12);    /* увеличиваем на 12% */
 }
 
@@ -1293,10 +1326,11 @@ body {
 
 
 .right-static-2 {
+  margin-top: 2vw;
   position: sticky;
   right: 0;
   top: 0vh; /* Начинается после первого блока */
-  width: 30vw;
+  width: 30.7vw;
   height: 41vw;
   background-color: #D4D5DE;
   padding: 0px;
@@ -1317,7 +1351,7 @@ body {
 .zag-proj {
   display: flex;
   align-items: center;
-  margin-left: 3.938vw;
+  margin-left: 3.7vw;
 }
 
 .ar-cont {
@@ -1390,7 +1424,7 @@ body {
   flex-wrap: wrap;
   gap: 0.313vw;
   padding-left: 0vw;
-  padding-bottom: 21.625vw;
+  padding-bottom: 21.1vw;
   width: 22vw;
   margin-left: 3.938vw;
 }
