@@ -30,6 +30,12 @@
     </div>
     <p class="name-studio">nazvanie studii</p>
   </div>
+  <div class="running-line">
+  <div class="running-inner">
+    <span>creative  digital  agency</span>
+    <span>creative  digital  agency</span>
+  </div>
+</div>
     </div>
     <div class="right-static">
   <div class="nav-wrapper fade-on-scroll">
@@ -43,13 +49,16 @@
     <div class="logo-block fade-on-scroll">
         <img src="images/Group 17.svg" alt="2kie Digital Agency">
     </div>
-       <a href="#" class="price-mot-3 fade-on-scroll">
+    <div class="text-contact fade-on-scroll">
+      <p>Свяжитесь с нами</p>
+    </div>
+       <a href="#" class="price-mot-4 fade-on-scroll">
           Обсудить проект
-          <div class="icon-wrap-2">
-          <img src="images/Arrow 51.svg" class="arrow-icon-2" alt="">
+          <div class="icon-wrap-4">
+          <img src="images/Arrow 51.svg" class="arrow-icon-4" alt="">
           </div>
       </a>
-        <div class="contact-block fade-on-scroll">
+        <div class="contact-block-1 fade-on-scroll">
             <div class="social-buttons">
             <a href="" class="social-btn">
               <img src="images/WA-Vector.svg" alt="" class="wa-button">
@@ -57,7 +66,6 @@
             <a href="" class="social-btn-1-2">
               <img src="images/TG-Vector.svg" alt="" class="tg-button">
             </a>
-            <a href="" class="social-btn-1-3">Написать нам</a>
             </div>
         </div>
     </div>
@@ -280,6 +288,9 @@
         <div class="category">Research analyst<span>x1</span></div>
         <div class="category">Brand designer<span>x1</span></div>
       </div>
+      <div class="get-go">
+        <a href="">Стать частью команды</a>
+      </div>
     </div>
   </div>
 </div>
@@ -465,6 +476,10 @@
         <a href="" class="filter-btn-2">Брендинг</a>
         <a href="" class="filter-btn-3">Веб-сайты</a>
         <a href="" class="filter-btn-4">Иллюстрация</a>
+        <a href="" class="filter-btn">Логотип</a>
+        <a href="" class="filter-btn-3">Веб-сайты</a>
+        <a href="" class="filter-btn">Логотип</a>
+        <a href="" class="filter-btn-4">Иллюстрация</a>
       </div>
     </div>
     <div class="action-block">
@@ -525,101 +540,166 @@
 </div>
 </footer>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const wrapper = document.querySelector('.services-cards-wrapper');
+document.addEventListener("DOMContentLoaded", () => {
+  const wrapper = document.querySelector(".services-cards-wrapper");
   if (!wrapper) return;
 
-  const cards = Array.from(wrapper.querySelectorAll('.card'));
+  const cards = Array.from(wrapper.querySelectorAll(".card"));
   if (!cards.length) return;
 
-  // ------------- НАСТРОЙКИ (менять) -------------
-  const startVh = 50;      // точка старта в vh (когда верх wrapper достигнет 90vh — начинается анимация)
-  const endVh = 35;        // точка окончания в vh (когда верх wrapper достигнет 25vh -> progress = 1)
-  const initialOffset = 160; // px — начальное translateY (сколько "вылетают")
-  const easingPower = 2;  // чем >1 тем более "плавный" вход (можно 1..2)
-  const stagger = 0.12;     // задержка между карточками в долях progress (0..0.3)
-  // -------------------------------------------------
+  const left = document.querySelector(".left-scrollable");
 
-  let ticking = false;
+  // ----------------------------
+  // НАСТРОЙКИ АНИМАЦИИ
+  // ----------------------------
+  const virtualScrollLength = 900; // длина псевдоскролла
+  const initialOffsetVW = 30;       // стартовое смещение в vw
+  const easingPower = 2;
+  const stagger = 0.12;
+  const inertiaTail = 0.12;        // инерционный хвост после завершения
 
-  function clamp(v, a=0, b=1) { return Math.max(a, Math.min(b, v)); }
+  let initialOffsetPX = 0;
 
-  function getProgress() {
-    const rect = wrapper.getBoundingClientRect();
-    const vh = window.innerHeight;
+  function recalcOffset() {
+    initialOffsetPX = (initialOffsetVW / 100) * window.innerWidth;
+  }
+  recalcOffset();
+  window.addEventListener("resize", recalcOffset);
 
-    // нормируем start/end в px от верха окна
-    const startPx = vh * (startVh / 100);
-    const endPx = vh * (endVh / 100);
+  // ----------------------------
+  // Состояния
+  // ----------------------------
+  let virtualScroll = 0; // плавно движущийся скролл
+  let targetScroll = 0;  // реальное направление прокрутки
+  let animDone = false;
+  let blocking = false;
 
-    // расстояние от верхней границы wrapper до верхней границы окна
-    const top = rect.top;
+  // ----------------------------
+  // Блокировка страницы
+  // ----------------------------
+  function lockPageScroll() {
+    if (blocking) return;
+    blocking = true;
 
-    // progress: 0 когда top >= startPx, 1 когда top <= endPx
-    const denom = (startPx - endPx) || 1;
-    let progress = (startPx - top) / denom;
-    progress = clamp(progress, 0, 1);
-
-    return progress;
+    document.body.style.overflow = "hidden";
+    left.style.position = "fixed";
+    left.style.top = "0";
+    left.style.left = "0";
   }
 
-  function update() {
-    ticking = false;
-    const rawProgress = getProgress();
+  function unlockPageScroll() {
+    if (!blocking) return;
+    blocking = false;
+
+    document.body.style.overflow = "";
+    left.style.position = "";
+    left.style.top = "";
+    left.style.left = "";
+  }
+
+  // ----------------------------
+  // Анимация карточек
+  // ----------------------------
+  function updateCards() {
+    let progress = Math.min(virtualScroll / virtualScrollLength, 1);
 
     cards.forEach((card, i) => {
-      // локальный прогресс с учетом stagger
-      const startDelay = i * stagger; // сдвиг старта для каждой карточки
-      // чтобы локальный прогресс доходил до 1, нормируем на (1 - maxDelay)
-      const maxDelay = (cards.length - 1) * stagger;
-      const effectiveDenom = Math.max(1 - startDelay, 0.001);
+      const delay = i * stagger;
 
-      // простой вариант: local = (rawProgress - startDelay) / (1 - startDelay)
-      let local = (rawProgress - startDelay) / effectiveDenom;
-      local = clamp(local, 0, 1);
+      // локальный прогресс
+      let local = (progress - delay) / (1 - delay);
+      local = Math.min(Math.max(local, 0), 1);
 
       // easing
       const eased = Math.pow(local, easingPower);
 
-      // вычисляем transform и opacity
-      const translateY = (1 - eased) * initialOffset; // px
-      const opacity = eased;
+      // мгновенное появление
+      card.style.opacity = 1;
 
-      // применяем (inline-style)
+      // плавный подъем по скроллу
+      const translateY = (1 - eased) * initialOffsetPX;
       card.style.transform = `translateY(${translateY}px)`;
-      card.style.opacity = String(opacity);
-
-      // опционально: добавить/убрать класс для pointer-events и SEO
-      if (opacity === 0) {
-        card.classList.add('is-hidden');
-        card.style.pointerEvents = 'none';
-      } else {
-        card.classList.remove('is-hidden');
-        card.style.pointerEvents = 'auto';
-      }
     });
-  }
 
-  function onScroll() {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
+// Инерционный хвост
+if (progress >= 1 && !animDone) {
+  animDone = true;
+
+  let tailAccum = 0;
+  let tailActive = true;
+
+  function handleTail(e) {
+    // пока хвост работает — блокируем страницу
+    e.preventDefault();
+
+    // накапливаем "колесико"
+    tailAccum += Math.abs(e.deltaY);
+
+    console.log("tailAccum: ", tailAccum);
+
+    // <<< ВОТ ЭТО ЧИСЛО И ЕСТЬ ДЛИНА ХВОСТА
+    if (tailAccum >= 250) {  
+      tailActive = false;
+      window.removeEventListener("wheel", handleTail);
+      unlockPageScroll();
     }
   }
 
-  // Подписки
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  // запускаем хвост
+  window.addEventListener("wheel", handleTail, { passive: false });
+}}
 
-  // Инициализируем раз
-  update();
+  // ----------------------------
+  // Мягкое движение virtualScroll через LERP
+  // ----------------------------
+  function animate() {
+    virtualScroll += (targetScroll - virtualScroll) * 0.08; // коэффициент плавности
+
+    if (!animDone) updateCards();
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
+  // ----------------------------
+  // Обработчик "виртуального скролла"
+  // ----------------------------
+  function onWheel(e) {
+    if (animDone) return;
+
+    e.preventDefault();
+
+    targetScroll += e.deltaY;
+    if (targetScroll < 0) targetScroll = 0;
+  }
+
+  // ----------------------------
+  // Запуск блокировки в нужный момент
+  // ----------------------------
+  function checkStart() {
+    if (animDone) return;
+
+    const rect = wrapper.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    if (rect.top <= vh * 0.55) {
+      lockPageScroll();
+      window.removeEventListener("scroll", checkStart);
+    }
+  }
+
+  window.addEventListener("scroll", checkStart);
+  window.addEventListener("wheel", onWheel, { passive: false });
+
+  // начальная отрисовка
+  updateCards();
 });
 </script>
 <script>
 const fadeBlocks = document.querySelectorAll('.fade-on-scroll');
 
 // Процент расстояния от низа страницы, в пределах которого элементы исчезают
-const fadePercent = 0.85; // например: исчезают в нижних 15% страницы
+const fadePercent = 0.85; 
 
 window.addEventListener('scroll', () => {
   const docHeight = document.documentElement.scrollHeight;
@@ -917,13 +997,32 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('resize', throttledCheck);
 
   // Первоначальная проверка видимости
-  checkVisibility();
+// Проверка "ранней" видимости (адаптивно)
+function checkVisibility() {
+  const rect = animationElement.getBoundingClientRect();
+  const windowH = window.innerHeight;
+
+  // Триггер: элемент заходит в нижние 40% экрана
+  const earlyTriggerZone = windowH * 1; 
+
+  const inView = rect.top <= earlyTriggerZone && rect.bottom > 0;
+
+  if (inView && !isVisible) {
+    isVisible = true;
+    typeText();
+  } else if (!inView && isVisible) {
+    stopAnimation();
+  }
+}
 });
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const counters = document.querySelectorAll(".komanda-bloki h2");
-  let triggered = false; // чтобы запустить один раз
+  let triggered = false;
+
+  // EASING — замедление в середине
+  const easeOutQuad = t => t * (2 - t);
 
   const animateCounter = (el) => {
     const start = +el.dataset.start || 0;
@@ -935,12 +1034,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const step = (timestamp) => {
       if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const value = Math.floor(progress * (end - start) + start);
+      const rawProgress = Math.min((timestamp - startTime) / duration, 1);
 
+      // Easing даёт замедление в середине
+      const easedProgress = easeOutQuad(rawProgress);
+
+      const value = Math.floor(easedProgress * (end - start) + start);
       el.textContent = value + suffix;
 
-      if (progress < 1) {
+      if (rawProgress < 1) {
         requestAnimationFrame(step);
       }
     };
@@ -951,14 +1053,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting && !triggered) {
-        triggered = true; // запускаем один раз
+        triggered = true;
         counters.forEach(counter => animateCounter(counter));
-        observer.disconnect(); // отключаем наблюдатель
+        observer.disconnect();
       }
     });
-  }, { threshold: 0.3 }); // 30% появления в зоне видимости
+  }, { threshold: 0.3 });
 
   observer.observe(document.querySelector(".komanda-bloki"));
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const list = document.querySelector(".filter-list");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        list.classList.add("visible");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(list);
 });
 </script>
 </body>
