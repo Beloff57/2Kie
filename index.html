@@ -539,160 +539,136 @@
   <a href="" class="privacy-policy">Политика конфиденциальности</a>
 </div>
 </footer>
+<div class="modal-overlay">
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <img src="images/zkie-logo.svg" alt="Zkie" class="modal-logo">
+
+      <div class="modal-actions">
+        <a href="#" class="icon-btn">
+          <img src="images/TG-Vector.svg" alt="">
+        </a>
+        <a href="#" class="icon-btn">
+          <img src="images/WA-Vector.svg" alt="">
+        </a>
+        <button class="modal-close">×</button>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form class="modal-form">
+      <input type="text" placeholder="Имя *" required>
+      <input type="tel" placeholder="Телефон *" required>
+      <input type="text" placeholder="Бюджет на проект *" required>
+
+      <p class="form-label">Какие продукты вас интересуют?</p>
+
+      <div class="tags">
+        <button type="button" class="tag">Логотип</button>
+        <button type="button" class="tag">Брендинг</button>
+        <button type="button" class="tag">Веб-сайты</button>
+        <button type="button" class="tag">Иллюстрация</button>
+        <button type="button" class="tag">Брендинг</button>
+        <button type="button" class="tag">Веб-сайты</button>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Обсудить проект
+        <span class="arrow">→</span>
+      </button>
+    </form>
+
+  </div>
+</div>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const wrapper = document.querySelector(".services-cards-wrapper");
-  if (!wrapper) return;
-
-  const cards = Array.from(wrapper.querySelectorAll(".card"));
+  const cards = Array.from(
+    document.querySelectorAll(".services-cards-wrapper .card")
+  );
   if (!cards.length) return;
 
-  const left = document.querySelector(".left-scrollable");
+  // =========================
+  // НАСТРОЙКИ
+  // =========================
+  const offsetVW = 30;           // вылет снизу (vw)
+  const stagger = 120;           // задержка между карточками (мс)
+  const duration = 900;          // длительность анимации
+  const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
+  const triggerPercent = 1;      // <<< % прокрутки страницы для старта
 
-  // ----------------------------
-  // НАСТРОЙКИ АНИМАЦИИ
-  // ----------------------------
-  const virtualScrollLength = 900; // длина псевдоскролла
-  const initialOffsetVW = 30;       // стартовое смещение в vw
-  const easingPower = 2;
-  const stagger = 0.12;
-  const inertiaTail = 0.12;        // инерционный хвост после завершения
+  let offsetPX = (offsetVW / 100) * window.innerWidth;
+  window.addEventListener("resize", () => {
+    offsetPX = (offsetVW / 100) * window.innerWidth;
+  });
 
-  let initialOffsetPX = 0;
+  // =========================
+  // НАЧАЛЬНОЕ СОСТОЯНИЕ
+  // =========================
+  cards.forEach(card => {
+    card.style.transform = `translateY(${offsetPX}px)`;
+    card.style.opacity = "0";
+    card.style.transition = `transform ${duration}ms ${easing}, opacity ${duration}ms ${easing}`;
+    card.style.willChange = "transform, opacity";
+  });
 
-  function recalcOffset() {
-    initialOffsetPX = (initialOffsetVW / 100) * window.innerWidth;
-  }
-  recalcOffset();
-  window.addEventListener("resize", recalcOffset);
+  let state = "hidden"; // hidden | shown
 
-  // ----------------------------
-  // Состояния
-  // ----------------------------
-  let virtualScroll = 0; // плавно движущийся скролл
-  let targetScroll = 0;  // реальное направление прокрутки
-  let animDone = false;
-  let blocking = false;
-
-  // ----------------------------
-  // Блокировка страницы
-  // ----------------------------
-  function lockPageScroll() {
-    if (blocking) return;
-    blocking = true;
-
-    document.body.style.overflow = "hidden";
-    left.style.position = "fixed";
-    left.style.top = "0";
-    left.style.left = "0";
-  }
-
-  function unlockPageScroll() {
-    if (!blocking) return;
-    blocking = false;
-
-    document.body.style.overflow = "";
-    left.style.position = "";
-    left.style.top = "";
-    left.style.left = "";
-  }
-
-  // ----------------------------
-  // Анимация карточек
-  // ----------------------------
-  function updateCards() {
-    let progress = Math.min(virtualScroll / virtualScrollLength, 1);
+  // =========================
+  // ПОКАЗ
+  // =========================
+  function showCards() {
+    if (state === "shown") return;
+    state = "shown";
 
     cards.forEach((card, i) => {
-      const delay = i * stagger;
-
-      // локальный прогресс
-      let local = (progress - delay) / (1 - delay);
-      local = Math.min(Math.max(local, 0), 1);
-
-      // easing
-      const eased = Math.pow(local, easingPower);
-
-      // мгновенное появление
-      card.style.opacity = 1;
-
-      // плавный подъем по скроллу
-      const translateY = (1 - eased) * initialOffsetPX;
-      card.style.transform = `translateY(${translateY}px)`;
+      setTimeout(() => {
+        card.style.transform = "translateY(0)";
+        card.style.opacity = "1";
+      }, i * stagger);
     });
+  }
 
-// Инерционный хвост
-if (progress >= 1 && !animDone) {
-  animDone = true;
+  // =========================
+  // СКРЫТИЕ
+  // =========================
+  function hideCards() {
+    if (state === "hidden") return;
+    state = "hidden";
 
-  let tailAccum = 0;
-  let tailActive = true;
+    [...cards].reverse().forEach((card, i) => {
+      setTimeout(() => {
+        card.style.transform = `translateY(${offsetPX}px)`;
+        card.style.opacity = "0";
+      }, i * stagger);
+    });
+  }
 
-  function handleTail(e) {
-    // пока хвост работает — блокируем страницу
-    e.preventDefault();
+  // =========================
+  // ПРОЦЕНТ СКРОЛЛА
+  // =========================
+  function getScrollPercent() {
+    const scrollTop = window.scrollY;
+    const docHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
 
-    // накапливаем "колесико"
-    tailAccum += Math.abs(e.deltaY);
+    if (docHeight <= 0) return 0;
+    return (scrollTop / docHeight) * 100;
+  }
 
-    console.log("tailAccum: ", tailAccum);
+  // =========================
+  // СКРОЛЛ-ТРИГГЕР
+  // =========================
+  window.addEventListener("scroll", () => {
+    const percent = getScrollPercent();
 
-    // <<< ВОТ ЭТО ЧИСЛО И ЕСТЬ ДЛИНА ХВОСТА
-    if (tailAccum >= 250) {  
-      tailActive = false;
-      window.removeEventListener("wheel", handleTail);
-      unlockPageScroll();
+    if (percent >= triggerPercent) {
+      showCards();
+    } else {
+      hideCards();
     }
-  }
-
-  // запускаем хвост
-  window.addEventListener("wheel", handleTail, { passive: false });
-}}
-
-  // ----------------------------
-  // Мягкое движение virtualScroll через LERP
-  // ----------------------------
-  function animate() {
-    virtualScroll += (targetScroll - virtualScroll) * 0.08; // коэффициент плавности
-
-    if (!animDone) updateCards();
-
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
-
-  // ----------------------------
-  // Обработчик "виртуального скролла"
-  // ----------------------------
-  function onWheel(e) {
-    if (animDone) return;
-
-    e.preventDefault();
-
-    targetScroll += e.deltaY;
-    if (targetScroll < 0) targetScroll = 0;
-  }
-
-  // ----------------------------
-  // Запуск блокировки в нужный момент
-  // ----------------------------
-  function checkStart() {
-    if (animDone) return;
-
-    const rect = wrapper.getBoundingClientRect();
-    const vh = window.innerHeight;
-
-    if (rect.top <= vh * 0.55) {
-      lockPageScroll();
-      window.removeEventListener("scroll", checkStart);
-    }
-  }
-
-  window.addEventListener("scroll", checkStart);
-  window.addEventListener("wheel", onWheel, { passive: false });
-
-  // начальная отрисовка
-  updateCards();
+  });
 });
 </script>
 <script>
@@ -726,26 +702,66 @@ window.addEventListener('scroll', () => {
 });
 </script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const target = document.querySelector('.page-wrapper-2');
-  const sidebar = document.querySelector('.right-static-2');
-  if (!target || !sidebar) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const trigger = document.querySelector(".page-wrapper-2");
+  const sidebar = document.querySelector(".right-static-2");
+  const title = document.querySelector(".zag-proj");
+  const list = document.querySelector(".filter-list");
+  const items = list ? Array.from(list.children) : [];
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        sidebar.classList.add('visible');
-      } else {
-        sidebar.classList.remove('visible');
-      }
-    });
-  }, {
-    root: null,
-    rootMargin: '0px 0px -30% 0px',
-    threshold: 0.05
+  if (!trigger || !sidebar || !title || !items.length) return;
+
+  const stagger = 120; // задержка между элементами (мс)
+
+  // начальные стили (важно)
+  title.style.opacity = 0;
+  title.style.transition = "opacity 0.5s ease";
+
+  items.forEach(item => {
+    item.style.opacity = 0;
+    item.style.transform = "translateX(-20px)";
+    item.style.transition = "opacity 0.45s ease, transform 0.45s ease";
   });
 
-  observer.observe(target);
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // ---------- ПОЯВЛЕНИЕ ----------
+          sidebar.classList.add("visible");
+
+          title.style.opacity = 1;
+
+          items.forEach((item, i) => {
+            setTimeout(() => {
+              item.style.opacity = 1;
+              item.style.transform = "translateX(0)";
+            }, i * stagger);
+          });
+
+        } else {
+          // ---------- ИСЧЕЗНОВЕНИЕ ----------
+          sidebar.classList.remove("visible");
+
+          title.style.opacity = 0;
+
+          [...items].reverse().forEach((item, i) => {
+            setTimeout(() => {
+              item.style.opacity = 0;
+              item.style.transform = "translateX(-20px)";
+            }, i * stagger);
+          });
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: "0px 0px -25% 0px", // ранний старт
+      threshold: 0.05
+    }
+  );
+
+  observer.observe(trigger);
 });
 </script>
 <script>
@@ -1065,17 +1081,78 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const list = document.querySelector(".filter-list");
+  const block = document.querySelector(".komanda-static");
+  if (!block) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  const categories = Array.from(block.querySelectorAll(".category"));
+  const getGo = block.querySelector(".get-go");
+
+  const stagger = 120;
+  const offsetY = 24;
+
+  // ----------------------------
+  // Начальные стили
+  // ----------------------------
+  block.style.opacity = 0;
+  block.style.transition = "opacity 0.5s ease";
+
+  categories.forEach(cat => {
+    cat.style.opacity = 0;
+    cat.style.transform = `translateY(${offsetY}px)`;
+    cat.style.transition =
+      "opacity 0.45s ease, transform 0.45s cubic-bezier(.22,1,.36,1)";
+  });
+
+  if (getGo) {
+    getGo.style.opacity = 0;
+    getGo.style.transform = `translateY(${offsetY}px)`;
+    getGo.style.transition = "opacity 0.45s ease, transform 0.45s ease";
+  }
+
+  // ----------------------------
+  // Observer
+  // ----------------------------
+  const observer = new IntersectionObserver(
+    ([entry]) => {
       if (entry.isIntersecting) {
-        list.classList.add("visible");
-      }
-    });
-  }, { threshold: 0.2 });
+        // ===== ПОЯВЛЕНИЕ =====
+        block.style.opacity = 1;
 
-  observer.observe(list);
+        categories.forEach((cat, i) => {
+          setTimeout(() => {
+            cat.style.opacity = 1;
+            cat.style.transform = "translateY(0)";
+          }, i * stagger);
+        });
+
+        if (getGo) {
+          setTimeout(() => {
+            getGo.style.opacity = 1;
+            getGo.style.transform = "translateY(0)";
+          }, categories.length * stagger + 120);
+        }
+
+      } else {
+        // ===== ПРОСТОЕ ИСЧЕЗНОВЕНИЕ =====
+        block.style.opacity = 0;
+
+        categories.forEach(cat => {
+          cat.style.opacity = 0;
+        });
+
+        if (getGo) {
+          getGo.style.opacity = 0;
+        }
+      }
+    },
+    {
+      root: null,
+      rootMargin: "0px 0px -40% 0px",
+      threshold: 0.1
+    }
+  );
+
+  observer.observe(block);
 });
 </script>
 </body>
