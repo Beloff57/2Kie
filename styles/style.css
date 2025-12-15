@@ -27,7 +27,7 @@ body {
   margin: 0; 
   padding: 0;
   box-sizing: border-box;
-  margin-bottom: 20vw;
+  margin-bottom: 15.6vw;
 }
 
 .left-scrollable {
@@ -426,7 +426,7 @@ body {
   display: flex; /* Располагаем карточки в ряд */
   align-items:flex-end;
   gap: 1.375vw; /* Отступы между карточками */
-  padding: 0.15vw; /* Отступы от краёв .page-wrapper */
+  padding: 0.16vw; /* Отступы от краёв .page-wrapper */
   opacity: 1;
   transition: opacity 0.8s ease-in-out; /* Плавное исчезновение */
 }
@@ -504,7 +504,7 @@ body {
   opacity: 0;
   transform: translateY(200px);
   will-change: transform, opacity;
-  transition: none; /* отключаем CSS-переходы — управление через JS */
+  transition: background-color 0.35s ease-out; /* отключаем CSS-переходы — управление через JS */
 }
 
 .card.visible {
@@ -514,6 +514,7 @@ body {
 
 .card:hover {
   transform: translateY(-12vw); /* Эффект при наведении */
+  background-color: #000000;
 }
 
 .card-header {
@@ -1525,7 +1526,7 @@ body {
   flex-wrap: wrap;
   gap: 0.313vw;
   padding-left: 0vw;
-  padding-bottom: 20.1vw;
+  padding-bottom: 17.5vw;
   width: 24vw;
   margin-left: 3.938vw;
 }
@@ -2065,6 +2066,123 @@ body {
 /* При наведении на .service-item — активируем анимацию */
 .service-item-hover-trigger:hover .merge-btn-container::before {
   transform: translateX(0);
+}
+
+
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #2d2d2d 0%, #000 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  display: none;
+}
+
+/* Modal */
+.modal {
+  width: 22vw;
+  min-width: 320px;
+  background: #e7e8ec;
+  border-radius: 1vw;
+  padding: 1.25vw;
+  box-sizing: border-box;
+}
+
+/* Header */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-logo {
+  height: 1.6vw;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5vw;
+}
+
+.icon-btn,
+.modal-close {
+  width: 1.6vw;
+  height: 1.6vw;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8vw;
+}
+
+/* Form */
+.modal-form {
+  margin-top: 1vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6vw;
+}
+
+.modal-form input {
+  height: 2.2vw;
+  border-radius: 0.6vw;
+  border: none;
+  padding: 0 0.8vw;
+  font-size: 0.8vw;
+  font-family: var(--montserrat);
+}
+
+.form-label {
+  font-size: 0.7vw;
+  margin-top: 0.5vw;
+  color: #555;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4vw;
+}
+
+.tag {
+  padding: 0.4vw 0.7vw;
+  font-size: 0.65vw;
+  border-radius: 0.5vw;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+}
+
+.tag.active {
+  background: #2d2d2d;
+  color: #fff;
+}
+
+/* Submit */
+.submit-btn {
+  margin-top: 0.8vw;
+  height: 2.4vw;
+  border-radius: 1.2vw;
+  border: none;
+  background: #2d2d2d;
+  color: #fff;
+  font-size: 0.8vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1vw;
+  cursor: pointer;
+}
+
+.submit-btn .arrow {
+  font-size: 1vw;
 }
 
 
