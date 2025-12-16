@@ -21,6 +21,66 @@ body {
 
 }
 
+.circle-btn {
+  position: fixed;
+  bottom: 1.25vw;
+  right: 1.25vw;
+  width: 6.5vw;
+  height: 6.5vw;
+  border-radius: 50%;
+  background: #2D2D2D;
+  z-index: 1000;
+  cursor: pointer;
+    transition: background-color 0.4s ease;
+}
+
+.circle-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.circle-center img {
+  width: 0.9vw;
+  height: 0.9vw;
+  transition: filter 0.4s ease;
+}
+
+.circle-text {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+.circle-text text {
+  font-weight: 500;
+  font-family: var(--montserrat);
+  line-height: 114.2%;
+  font-size: 1.5rem;
+  letter-spacing: -4%;
+    fill: #ffffff;
+  transition: fill 0.4s ease;
+}
+
+.circle-btn:hover {
+  background: #ffffff;
+}
+
+.circle-btn:hover .circle-text text {
+  fill: #2D2D2D;
+}
+
+.circle-btn:hover .circle-center img {
+  filter: invert(1);
+}
+
+
 .page-wrapper {
   display: flex;
   height: 100%;
@@ -55,23 +115,22 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 100%;
-  height: 100%;
   display: flex;
   justify-content: space-between; 
-  align-items:flex-start; 
-  padding: 0.813vw 0.875vw; 
+  align-items:center; 
+  padding: 0.87vw 0.875vw; 
   box-sizing: border-box;
 }
 
 .logo-container {
-  flex: 0 0 auto;
+  display: flex;
   width: 3.008vw;
   height: 1.356vw;
   transition: transform 0.3s ease, 0.3s ease;
 }
 
 .h-logo {
+  display: flex;
   width: 3.008vw;
   height: 1.356vw;
 }
@@ -82,9 +141,9 @@ body {
 }
 
 .showreel-btn {
-  flex: 0 0 auto;
+  display: flex;
+  position: relative;
   margin-left: 55vw;
-  margin-top: 0.4vw;
 }
 
 .showreel-btn a {
@@ -106,13 +165,13 @@ body {
 }
 
 .mute-btn {
-  width: 1.138vw;
-  height: 1.138vw;
-  flex: 0 0 auto;
+  display: flex;
+  width: 1.188vw;
+  height: 1.188vw;
   margin-left: 0;
   cursor: pointer;
-  margin-right: 1.1vw;
-  margin-top: 0.4vw;
+  margin-right: 1.6vw;
+  padding-top: 0.1vw;
 }
 
 .btn-mute {
@@ -144,7 +203,7 @@ body {
   text-transform: uppercase;
   position: absolute;
   bottom: 0.313vw;      
-  right: 0.313vw;     
+  right: 0.7vw;     
   margin: 0;
   padding: 4.375vw 2.375vw;
   font-size: 4vw;
@@ -903,12 +962,12 @@ body {
   font-size: 7.188vw;
   font-family: var(--vazirmatn);
   color: #2D2D2D;
-  line-height: 114.2%;
+  line-height: 89%;
   font-weight: 600;
   margin: 0;
   display: flex;
   justify-content: center;
-  padding-top: 1.688vw;
+  padding-top: 2.5vw;
 }
 
 .kb-1 h2 {
@@ -928,24 +987,24 @@ body {
 .kb-1 p,
 .kb-2 p,
 .kb-3 p {
-  width: 15.813vw;
+  width: 15vw;
   text-align: center;
   font-family: var(--montserrat);
-  font-size: 1vw;
+  font-size: 0.875vw;
   line-height: 114.2%;
-  letter-spacing: -3%;
-  font-weight: 500;
+  letter-spacing: -0.02;
+  font-weight: 400;
   margin: 0;
   padding-bottom: 1.688vw;
-  padding-left: 3vw;
-  color: #8B8B8B;
+  padding-left: 3.8vw;
+  color: #2D2D2D;
 }
 
 .komanda-static {
   width: 31vw;
   position: sticky; /* Ключевое свойство: «прилипает» при скролле */
   top: 0; /* Прилипает к верху окна */
-  height: 24.5vw;
+  height: 24.7vw;
   align-self: start; /* Выравниваем сверху */
   background-color: #D4D5DE; /* Фоновый цвет для наглядности */
   box-sizing: border-box;
@@ -977,17 +1036,16 @@ body {
   display: flex;
   flex-wrap: wrap;
   margin-left: 3.938vw;
-  transform: translateY(-1.5vw);
 }
 
 .category {
   width: 21.7vw;
   font-family: var(--montserrat);
-  font-size: 1.125vw;
+  font-size: 0.875vw;
   line-height: 113.9%;
   letter-spacing: -4%;
   font-weight: 500;
-  margin-bottom: 0.5vw;
+  margin-bottom: 0.8vw;
   color: #2D2D2D;
   display: flex;
   align-items:center;
@@ -996,7 +1054,7 @@ body {
 
 .category span {
   font-family: var(--montserrat);
-  font-size: 1.125vw;
+  font-size: 0.875vw;
   line-height: 113.9%;
   letter-spacing: -4%;
   font-weight: 500;
@@ -1127,7 +1185,7 @@ body {
   object-fit: cover; 
   border-radius: 9px;
   transform: scale(1);
-  transition: transform 0.3s ease;
+  transition: transform 0.6s cubic-bezier(0.08, 1, 0.2, 1);
 }
 
 .service-item:hover .zoom-out img {
@@ -1331,7 +1389,7 @@ body {
   object-fit: cover;         /* сохраняет охват, без искажения */
   object-position: center;   /* центрируем содержимое при увеличении */
   transform-origin: center center; /* точка масштабирования */
-  transition: transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
+  transition:  transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
   will-change: transform;    /* hint браузеру для ускорения */
   backface-visibility: hidden;
 }
@@ -1360,7 +1418,7 @@ body {
   object-fit: cover;         /* сохраняет охват, без искажения */
   object-position: center;   /* центрируем содержимое при увеличении */
   transform-origin: center center; /* точка масштабирования */
-  transition: transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
+  transition:  transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
   will-change: transform;    /* hint браузеру для ускорения */
   backface-visibility: hidden;
 }
@@ -1373,7 +1431,7 @@ body {
 
 .button-group {
   position: absolute;
-  bottom: 19.1vw;      /* Отступ от нижнего края картинки */
+  bottom: 19.3vw;      /* Отступ от нижнего края картинки */
   left: 0.5vw;     /* Отступ от правого края картинки */
   display: flex;
   gap: 0.313vw;        /* Расстояние между кнопками */
@@ -1382,7 +1440,7 @@ body {
 
 .button-group-2 {
   position: absolute;
-  bottom: 18.8vw;      /* Отступ от нижнего края картинки */
+  bottom: 18.9vw;      /* Отступ от нижнего края картинки */
   left: 0.5vw;     /* Отступ от правого края картинки */
   display: flex;
   gap: 5px;        /* Расстояние между кнопками */
@@ -1391,25 +1449,27 @@ body {
 
 /* Базовая стилизация кнопок */
 .btn-drk {
-  font-family: var(--krona);
-  padding: 0.375vw 0.813vw;
+  font-family: var(--montserrat);
+  font-weight: 600;
+  padding: 0.25vw 0.62vw;
   background-color: #2D2D2D;
-  color: white;
+  color: #FFFFFF;
   text-decoration: none;
   border-radius: 0.563vw;
-  font-size: 0.75vw;
+  font-size: 0.85vw;
   white-space: nowrap;
   transition: background-color 0.3s ease;
 }
 
 .btn-wht {
-  font-family: var(--krona);
-  padding: 0.375vw 0.813vw;
+  font-family: var(--montserrat);
+  font-weight: 600;
+  padding: 0.25vw 0.62vw;
   background-color: #FFFFFF;
   color: #2D2D2D;
   text-decoration: none;
   border-radius: 0.563vw;
-  font-size: 0.75vw;
+  font-size: 0.85vw;
   white-space: nowrap;
   transition: background-color 0.3s ease;
 }
@@ -1544,7 +1604,7 @@ body {
   background-color: #FFFFFF38;
   border-radius: 0.5vw;
   font-size: 1.063vw;
-  transition: background-color 0.3s, ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .filter-btn:hover {
@@ -1565,7 +1625,7 @@ body {
   background-color: #FFFFFF38;
   border-radius: 0.5vw;
   font-size: 1.063vw;
-  transition: background-color 0.3s, ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .filter-btn-2:hover {
@@ -1586,7 +1646,7 @@ body {
   background-color: #FFFFFF38;
   border-radius: 0.5vw;
   font-size: 1.063vw;
-  transition: background-color 0.3s, ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .filter-btn-3:hover {
@@ -1607,7 +1667,7 @@ body {
   background-color: #FFFFFF38;
   border-radius: 0.5vw;
   font-size: 1.063vw;
-  transition: background-color 0.3s, ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .filter-btn-4:hover {
@@ -2078,17 +2138,55 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+/* АКТИВНОЕ СОСТОЯНИЕ */
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
 }
 
 /* Modal */
 .modal {
   width: 22vw;
-  min-width: 320px;
   background: #e7e8ec;
-  border-radius: 1vw;
+  border-radius: 0.625vw;
   padding: 1.25vw;
   box-sizing: border-box;
+  position: relative;
+  transform: translateY(30px) scale(0.96);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(.22,.61,.36,1),
+              opacity 0.35s ease;
+}
+
+.modal-close {
+  position: absolute;
+  top: -0.9vw;
+  right: -0.9vw;
+  width: 2vw;
+  height: 2vw;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.modal-close img {
+  width: 0.9vw;
+  height: 0.9vw;
 }
 
 /* Header */
@@ -2099,7 +2197,8 @@ body {
 }
 
 .modal-logo {
-  height: 1.6vw;
+  width: 4.5vw;
+  height: 2vw;
 }
 
 .modal-actions {
@@ -2107,18 +2206,10 @@ body {
   gap: 0.5vw;
 }
 
-.icon-btn,
-.modal-close {
-  width: 1.6vw;
-  height: 1.6vw;
-  border-radius: 50%;
-  border: none;
-  background: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8vw;
+.f-wa,
+.f-tg {
+  width: 1.438vw;
+  height: 1.438vw;
 }
 
 /* Form */
@@ -2130,34 +2221,46 @@ body {
 }
 
 .modal-form input {
-  height: 2.2vw;
-  border-radius: 0.6vw;
+  border-radius: 0.688vw;
   border: none;
-  padding: 0 0.8vw;
-  font-size: 0.8vw;
+  padding: 0.7vw 0.8vw;
+  font-size: 0.875vw;
   font-family: var(--montserrat);
+  font-weight: 400;
+  color: #2D2D2D;
+  letter-spacing: -0.03em;
 }
 
 .form-label {
-  font-size: 0.7vw;
+  font-size: 0.875vw;
   margin-top: 0.5vw;
-  color: #555;
+  color: #2D2D2D;
+  font-family: var(--montserrat);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5vw;
 }
 
 /* Tags */
 .tags {
+  width: 19vw;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4vw;
+  gap: 0.313vw;
 }
 
 .tag {
   padding: 0.4vw 0.7vw;
-  font-size: 0.65vw;
+  font-size: 0.875vw;
   border-radius: 0.5vw;
   border: none;
   cursor: pointer;
-  background: #fff;
+  background: #F5F5F6;
+  font-family: var(--montserrat);
+    font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #2D2D2D;
+  margin-bottom: 0.313vw;
 }
 
 .tag.active {
@@ -2167,22 +2270,31 @@ body {
 
 /* Submit */
 .submit-btn {
-  margin-top: 0.8vw;
-  height: 2.4vw;
-  border-radius: 1.2vw;
+  font-family: var(--montserrat);
+  font-weight: 500;
+  margin-top: 3vw;
+  border-radius: 1.5vw;
   border: none;
-  background: #2d2d2d;
-  color: #fff;
-  font-size: 0.8vw;
+  background: #2D2D2D;
+  color: #FFFFFF;
+  font-size: 0.875vw;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1vw;
+  padding: 0.4vw 1vw;
   cursor: pointer;
 }
 
-.submit-btn .arrow {
-  font-size: 1vw;
+.ar-modal {
+  display: flex;
+  border: 0.063vw solid #FFFFFF;
+  border-radius: 2vw;
+  padding: 0.758vw 0.508vw;
+  transform: translateX(0.6vw);
+}
+
+.modal-ar {
+  width: 1vw;
 }
 
 
@@ -2991,3 +3103,6 @@ display: none;
   transform: scale(1.05); /* Дополнительно масштабируем изображение */
 }
 }
+
+
+
