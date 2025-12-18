@@ -1188,6 +1188,20 @@ body {
   transition: transform 0.6s cubic-bezier(0.08, 1, 0.2, 1);
 }
 
+.kartochki {
+  text-decoration: none; 
+  color: inherit; 
+  display: flex; 
+  width: 100%; 
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.podpis {
+  flex-grow: 1; 
+  margin-right: 0.625vw;
+}
+
 .service-item:hover .zoom-out img {
   transform: scale(0.94);
 }
@@ -2888,13 +2902,14 @@ display: none;
 }
 
 .komanda-img {
-  width: 68vw;
+  width: 100%;
+  height: 100%;
 }
 
 .komanda-content {
-  width: 68vw;
+  width: 92.955vw;
   position: relative; 
-  height: 28.3vw;
+  height: 82.955vw;
 }
 
 .komanda-overlay {
@@ -2952,15 +2967,14 @@ display: none;
 .kb-1 h2,
 .kb-2 h2,
 .kb-3 h2 {
-  font-size: 7.188vw;
+  font-size: 26.136vw;
   font-family: var(--vazirmatn);
   color: #2D2D2D;
-  line-height: 114.2%;
   font-weight: 600;
   margin: 0;
   display: flex;
   justify-content: center;
-  padding-top: 1.688vw;
+  padding-top: 8vw;
 }
 
 .kb-1 h2 {
@@ -2980,16 +2994,16 @@ display: none;
 .kb-1 p,
 .kb-2 p,
 .kb-3 p {
-  width: 15.813vw;
+  width: 57vw;
   text-align: center;
   font-family: var(--montserrat);
-  font-size: 1vw;
+  font-size: 3.636vw;
   line-height: 114.2%;
   letter-spacing: -3%;
   font-weight: 500;
   margin: 0;
   padding-bottom: 1.688vw;
-  padding-left: 3vw;
+  padding-left: 19vw;
   color: #8B8B8B;
 }
 
@@ -3101,6 +3115,579 @@ display: none;
 .ar-cont:hover img {
   width: 1.3vw; /* Увеличиваем ширину стрелки */
   transform: scale(1.05); /* Дополнительно масштабируем изображение */
+}
+
+.get-go {
+  margin-left: 3.938vw;
+  margin-top: 2vw;
+}
+
+.get-go a {
+  font-family: var(--montserrat);
+  font-size: 4.091vw;
+  color: #2D2D2D;
+  line-height: 114.2%;
+  letter-spacing: -4%;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+
+.page-wrapper-2 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0; 
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 20;
+}
+
+.left-scrollable-2 {
+  width: 92.955vw; 
+  overflow-y: auto;
+  padding-top: 1.063vw;
+  padding-left: 3.636vw;
+  padding-bottom: 2.688vw;
+  padding-right: 0px;
+  box-sizing: content-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: scroll;
+    z-index: 20;
+}
+
+.left-scrollable-2::-webkit-scrollbar {
+  display: none;
+}
+
+.project-content-1 {
+  width: 100%;
+  display: block;
+  height: 269.318vw;
+  overflow-y: auto; /* Если контента больше, чем помещается */
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  border-radius: 0.75vw;
+  margin-bottom: 1.063vw;
+  padding-bottom: 0.5vw;
+}
+
+.merge-btn-container {
+  display: none;
+}
+
+.projects-container {
+  background-color: #F6F6F8;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.projects-container h2 {
+  margin: 0 0 0 0; 
+  padding: 3vw 1.875vw 3vw 1.875vw; 
+  margin-bottom: 0; 
+  font-size: 4.545vw; 
+  font-family: var(--montserrat); 
+  font-weight: 500; 
+  color: #2D2D2D; 
+  line-height: 114.2%; 
+  letter-spacing: -4%; 
+  background-color: #F6F6F8;
+}
+
+.text-part-zag {
+  color: #2D2D2D; 
+  margin: 0; 
+  font-size: 7.273vw; 
+  font-family: var(--montserrat); 
+  line-height: 113.9%; 
+  font-weight: 600;
+}
+
+.scroll-fade-text {
+  margin-top: 3.125vw;
+  color: #2D2D2D; 
+  font-family: var(--montserrat); 
+  font-size: 3.18vw; 
+  margin-left: 1vw; 
+  width: 77vw; 
+  margin-bottom: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+
+.is-in-view .scroll-fade-text {
+  opacity: 1;
+}
+
+.service-item-hover-trigger {
+  position: relative;
+  padding: 0.813vw 1.063vw 27.313vw 1.875vw; 
+  box-sizing: border-box; 
+  background: #F6F6F8; 
+  display: flex; 
+  align-items: center;
+}
+
+.kartochki {
+  display: flex;
+  transform: translateX(-77vw);
+}
+
+.podpis {
+  flex-grow: 1; 
+  margin-right: 0.625vw;
+  transform: translate(79vw, 40vw);
+}
+
+.zoom-out img {
+  width: 86.59vw; 
+  height: 56.82vw; 
+  object-fit: cover; 
+  border-radius: 9px;
+  transform: scale(1);
+  transition: transform 0.6s cubic-bezier(0.08, 1, 0.2, 1);
+}
+
+.service-item:hover .zoom-out img {
+  transform: scale(0.94);
+}
+
+.icon-part {
+  background: #2D2D2D; 
+  border-radius: 3vw; 
+  padding: 0.24vw 0.45vw; 
+  margin-right: 0.125vw;
+}
+
+.icon-part img {
+  width: 0.707vw;
+}
+
+.icon-part-2 {
+  position:absolute; 
+  background: #2D2D2D; 
+  border-radius: 3vw; 
+  padding: 0.24vw 0.5vw; 
+  margin-right: 0.125vw; 
+  transform: translateX(0px);
+}
+
+.icon-part-2 img {
+  width: 0.60vw; 
+  height: 0.60vw;
+}
+
+.text-part {
+  line-height: 120%;
+  letter-spacing: 0%;
+  color: #FFFFFF; 
+  font-weight: 400; 
+  font-size: 0.875vw; 
+  font-family: var(--krona); 
+  background: #2D2D2D; 
+  padding: 0.188vw 0.563vw; 
+  border-radius: 3vw;
+}
+
+.separator-1 {
+  display: none;
+}
+
+.separator-3 {
+  display: none;
+}
+
+.separator-wrapper {
+  display: none;
+}
+
+.project-content-2 {
+  width: 68vw;
+}
+
+.photo-block {
+  width: 100%;
+  margin: 0 auto; /* Центрируем блок */
+}
+
+.row-1, .row-3, .row-5 {
+  width: 68vw;
+  display: flex; /* Располагаем фото в ряд */
+  justify-content: space-between; /* Распределяем фото с отступами */
+    margin-right: 0vw;
+  gap: 0.375vw;
+  margin-bottom: 0.375vw;
+}
+
+.row-2, .row-4 {
+  text-align: center; /* Центрируем растянутое фото */
+  margin-bottom: 0.375vw;
+}
+
+.photo-506 {
+  width: 506px;
+  height: 319px;
+  object-fit: cover; /* Сохраняем пропорции фото */
+}
+
+.photo-1032 {
+  width: 1032px;
+  height: 319px;
+  object-fit: cover; /* Сохраняем пропорции фото */
+}
+
+.tooltip {
+  font-family: var(--montserrat);
+  font-weight:600;
+  line-height: 113%;
+  letter-spacing: 0%;
+  position: fixed;
+  background-color: #2D2D2D;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 300px;
+  z-index: 1000;
+  pointer-events: none; /* Чтобы не мешала кликам */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Видимая подсказка */
+.tooltip.show {
+  opacity: 1;
+}
+
+.tooltip-2 {
+  font-family: var(--montserrat);
+  font-weight:600;
+  line-height: 113%;
+  letter-spacing: 0%;
+  position: fixed;
+  background-color: #FFFFFF;
+  color: #2D2D2D;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  max-width: 300px;
+  z-index: 1000;
+  pointer-events: none; /* Чтобы не мешала кликам */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Видимая подсказка */
+.tooltip.show {
+  opacity: 1;
+}
+
+.image-container-1 {
+  position: relative;
+  overflow: hidden;          /* главное: обрезаем изображение за пределами контейнера */
+  border-radius: 0.75vw;        /* если нужно закругление */
+  display: block;
+  width: 68vw;
+  height: 21.33vw;
+  margin-right: 0vw; /* Отступы между элементами */
+}
+
+/* картинка растягиваем по контейнеру и готовим к трансформации */
+.image-container-1 img {
+  display: block;
+  width: 100%;               /* заполняет контейнер по ширине */
+  height: 21.33vw;              /* заполняет контейнер по высоте */
+  object-fit: cover;         /* сохраняет охват, без искажения */
+  object-position: center;   /* центрируем содержимое при увеличении */
+  transform-origin: center center; /* точка масштабирования */
+  transition:  transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
+  will-change: transform;    /* hint браузеру для ускорения */
+  backface-visibility: hidden;
+}
+
+/* сам эффект zoom — значение scale можно менять */
+.image-container-1:hover img,
+.image-container-1.zoom-active img { /* .zoom-active — для touch */
+  transform: scale(1.12);    /* увеличиваем на 12% */
+}
+
+.image-container-2 {
+  position: relative;
+  overflow: hidden;          /* главное: обрезаем изображение за пределами контейнера */
+  border-radius: 0.75vw;        /* если нужно закругление */
+  display: block;
+  width: 68vw;
+  height: 100%;
+  margin-right: 0vw; /* Отступы между элементами */
+}
+
+/* картинка растягиваем по контейнеру и готовим к трансформации */
+.image-container-2 img {
+  display: block;
+  width: 100%;               /* заполняет контейнер по ширине */
+  height: 100%;              /* заполняет контейнер по высоте */
+  object-fit: cover;         /* сохраняет охват, без искажения */
+  object-position: center;   /* центрируем содержимое при увеличении */
+  transform-origin: center center; /* точка масштабирования */
+  transition:  transform 450ms cubic-bezier(.2,.8,.2,1), filter 300ms;
+  will-change: transform;    /* hint браузеру для ускорения */
+  backface-visibility: hidden;
+}
+
+/* сам эффект zoom — значение scale можно менять */
+.image-container-2:hover img,
+.image-container-2.zoom-active img { /* .zoom-active — для touch */
+  transform: scale(1.12);    /* увеличиваем на 12% */
+}
+
+.button-group {
+  position: absolute;
+  bottom: 19.3vw;      /* Отступ от нижнего края картинки */
+  left: 0.5vw;     /* Отступ от правого края картинки */
+  display: flex;
+  gap: 0.313vw;        /* Расстояние между кнопками */
+  flex-direction:row; /* Кнопки вертикально */
+}
+
+.button-group-2 {
+  position: absolute;
+  bottom: 18.9vw;      /* Отступ от нижнего края картинки */
+  left: 0.5vw;     /* Отступ от правого края картинки */
+  display: flex;
+  gap: 5px;        /* Расстояние между кнопками */
+  flex-direction:row; /* Кнопки вертикально */
+}
+
+/* Базовая стилизация кнопок */
+.btn-drk {
+  font-family: var(--montserrat);
+  font-weight: 600;
+  padding: 0.25vw 0.62vw;
+  background-color: #2D2D2D;
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 0.563vw;
+  font-size: 0.85vw;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.btn-wht {
+  font-family: var(--montserrat);
+  font-weight: 600;
+  padding: 0.25vw 0.62vw;
+  background-color: #FFFFFF;
+  color: #2D2D2D;
+  text-decoration: none;
+  border-radius: 0.563vw;
+  font-size: 0.85vw;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.btn-drk:hover {
+  background-color: #FFFFFF;
+  color: #2D2D2D;
+}
+
+.btn-wht:hover {
+  background-color:#2D2D2D;
+  color: #FFFFFF;
+}
+
+
+
+
+.right-static-2 {
+  position: sticky;
+  right: 0;
+  top: 0vh; /* Начинается после первого блока */
+  width: 30.7vw;
+  height: 41vw;
+  background-color: #D4D5DE;
+  padding: 0px;
+  margin-left: 0;
+  padding-left: 0vw;
+  z-index: 20; /* На случай наложения */
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(.2,.9,.2,1), transform 0.6s cubic-bezier(.2,.9,.2,1);
+  pointer-events: none; /* чтобы не реагировал на клики, пока скрыт */
+  will-change: opacity, transform;
+}
+
+.right-static-2.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.zag-proj {
+  margin-top: 1vw;
+  display: flex;
+  align-items: center;
+  margin-left: 3.7vw;
+}
+
+.ar-cont {
+  margin-top: 0.4vw;
+  display: inline-block; /* Чтобы корректно работали размеры */
+  transition: transform 0.3s ease; /* Плавный переход для масштабирования */
+  display: flex;
+  align-items: center;
+}
+
+.icon-wrap-1 {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0.6vw;            
+  box-sizing:border-box;    
+  border:1px solid #2D2D2D;
+  border-radius:2vw;
+  margin-left: 2vw;
+}
+
+.icon-wrap-1 .arrow-icon-1 {
+  width: 1.2vw;
+  height: 1.2vw;
+}
+
+/* Эффекты при наведении */
+.ar-cont:hover {
+  transform: scale(1.1); /* Увеличиваем контейнер на 10 % */
+}
+
+.ar-cont:hover img {
+  width: 1.3vw; /* Увеличиваем ширину стрелки */
+  transform: scale(1.05); /* Дополнительно масштабируем изображение */
+}
+
+.icon-wrap-1-1 {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0.6vw;            
+  box-sizing:border-box;    
+  border:1px solid #2D2D2D;
+  border-radius:2vw;
+  margin-left: 3vw;
+}
+
+.icon-wrap-1-1 .arrow-icon-1-1 {
+  width: 1.2vw;
+  height: 1.2vw;
+}
+
+.projects-filter h3 {
+  margin-top: 1.563vw;
+  line-height: 114.2%;
+  font-weight: 700;
+  font-family: var(--montserrat);
+  margin-bottom: 1.25vw;
+  font-size: 3vw;
+  color: #333333;
+  padding-left: 0vw;
+  padding-bottom: 0vw;
+  text-transform: uppercase;
+}
+
+.filter-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.313vw;
+  padding-left: 0vw;
+  padding-bottom: 17.5vw;
+  width: 24vw;
+  margin-left: 3.938vw;
+}
+
+.filter-btn {
+  margin-bottom: 0.313vw;
+  color: #2D2D2D;
+  text-decoration: none;
+  line-height: 113.9%;
+  letter-spacing: -5%;
+  font-weight: 500;
+  font-style: medium;
+    font-family: var(--montserrat);
+  padding: 0.38vw 0.96vw;
+  background-color: #FFFFFF38;
+  border-radius: 0.5vw;
+  font-size: 1.063vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: #2D2D2D;
+  color: #FFFFFF;
+}
+
+.filter-btn-2 {
+  margin-bottom: 0.313vw;
+  color: #2D2D2D;
+  text-decoration: none;
+  line-height: 113.9%;
+  letter-spacing: -5%;
+  font-weight: 500;
+  font-style: medium;
+    font-family: var(--montserrat);
+  padding: 0.38vw 0.83vw;
+  background-color: #FFFFFF38;
+  border-radius: 0.5vw;
+  font-size: 1.063vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-btn-2:hover {
+  background-color: #2D2D2D;
+  color: #FFFFFF;
+}
+
+.filter-btn-3 {
+  margin-bottom: 0.313vw;
+  color: #2D2D2D;
+  text-decoration: none;
+  line-height: 113.9%;
+  letter-spacing: -5%;
+  font-weight: 500;
+  font-style: medium;
+    font-family: var(--montserrat);
+  padding: 0.38vw 0.7vw;
+  background-color: #FFFFFF38;
+  border-radius: 0.5vw;
+  font-size: 1.063vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.filter-btn-3:hover {
+  background-color: #2D2D2D;
+  color: #FFFFFF;
+}
+
+.filter-btn-4 {
+  margin-bottom: 0.313vw;
+  color: #2D2D2D;
+  text-decoration: none;
+  line-height: 113.9%;
+  letter-spacing: -5%;
+  font-weight: 500;
+  font-style: medium;
+    font-family: var(--montserrat);
+  padding: 0.38vw 0.7vw;
+  background-color: #FFFFFF38;
+  border-radius: 0.5vw;
+  font-size: 1.063vw;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 }
 
